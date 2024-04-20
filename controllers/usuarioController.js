@@ -64,14 +64,13 @@ async function getUsuarios() {
 } 
 
 const updateUsuario = async (req, res) => {
-  console.log(req)
+
   const idUsuario = req.params.id;
   const nombre = req.body.nombre;
   const clave= req.body.clave;
   const idRol = req.body.idRol;
   const idApartamento= req.body.idApartamento;
   try {
-    console.log(req)
       const query = 'UPDATE Usuarios SET nombre=@nombre, clave= @clave, idRol=@idRol, idApartamento= @idApartamento WHERE idUsuario=@idUsuario';
       const result = await rest.executeQuery(query, [{name:'nombre', type: 'varchar', value:nombre},
         {name:'clave', type: 'varchar', value:clave},

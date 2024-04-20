@@ -18,7 +18,7 @@ const createRol = async (roles) => {
     try {
         const query = "INSERT INTO Roles (nombre,administrador) VALUES (@nombre,@administrador)";
         const result = await rest.executeQuery(query, [{name:'nombre', type: 'varchar', value:roles.nombre},
-        {name:'administrador', type: 'bit', value:roles.administrador}
+        {name:'administrador', type: 'smallint', value:roles.administrador}
         ]);
         return result;
     } catch (error) {
@@ -40,14 +40,14 @@ async function getRol() {
 const updateRol = async (req, res) => {
   console.log(req)
   const idRol = req.params.id;
-  const nuevoNombre = req.body.nombre;
+  const nuevoRol = req.body.nombre;
   const nuevoAdmon = req.body.administrador;
   try {
     console.log(req)
       const query = 'UPDATE Roles SET nombre=@nombre, administrador=@administrador WHERE idRol=@idRol';
-      const result = await rest.executeQuery(query, [{name:'nombre', type: 'varchar', value:nuevoNombre},
+      const result = await rest.executeQuery(query, [{name:'nombre', type: 'varchar', value:nuevoRol},
         {name:'administrador', type: 'bit', value:nuevoAdmon},
-        {name:'idRol', type: 'int', value:idRol},
+        {name:'idRol', type: 'smallint', value:idRol},
       ]);
       
       res.json({ success: true, data: result });

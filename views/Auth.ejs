@@ -1,55 +1,86 @@
+<!doctype html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="description" content="">
-        <title>Login</title>
 
-        <link rel="canonical" href="https://getbootstrap.com/docs/5.0/examples/sign-in/">
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" 
-              rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
-        <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
-        <link href="/docs/5.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.11.4/sweetalert2.min.js"></script>
-        <link rel="icon" type="image/png" href="IMG/login.png">
-        <link href="C:\Users\MSI\Desktop\p\Python\Python_Web\CLASE_06_MYSQL\src\templates\signin.css" rel="stylesheet">
+<head>
+	<title>Digitalizacion HV</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<link rel="stylesheet" href="https://unicons.iconscout.com/release/v2.1.9/css/unicons.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css">
+	<link rel="stylesheet" href="/views/css/styles.css">
+</head>
 
-    </head>
-    <body class="text-center">
+<body>
+			<form action="" method="post">
+				<div class="section">
+					<div class="container" id="container-index">
+						<div class="row full-height justify-content-center">
+							<div class="col-12 text-center align-self-center py-5">
+								<div class="section pb-5 pt-5 pt-sm-2 text-center">
+									<h6 class="mb-0 pb-3"><span style="background-color:#2b2e38;">Ingresar </span><span
+											style="background-color:#2b2e38;">Registrarse</span></h6>
+									<input title="checkbox" class="checkbox" type="checkbox" id="reg-log"
+										name="reg-log" />
+									<label for="reg-log"></label>
+									<div class="card-3d-wrap mx-auto">
+										<div class="card-3d-wrapper">
+											<div class="card-front">
+												<div class="center-wrap">
+													<div class="section text-center">
+														<h4 class="mb-4 pb-3">Iniciar sesion</h4>
+														<div class="form-group">
+															<input type="email" class="form-style" placeholder="Correo">
+															<i class="input-icon uil uil-at"></i>
+														</div>
+														<div class="form-group mt-2">
+															<input type="password" class="form-style"
+																placeholder="Contraseña">
+															<i class="input-icon uil uil-lock-alt"></i>
+														</div>
+														<a href="/auth"
+															class="btn mt-4">Ingresar</a>
+														<p class="mb-0 mt-4 text-center"><a
+																href="/auth"
+																class="link">Olvidaste tu clave?</a></p>
+													</div>
+												</div>
+											</div>
+											<div class="card-back">
+												<div class="center-wrap">
+													<div class="section text-center">
+														<h4 class="mb-3 pb-3">Registrarme</h4>
+														<div class="form-group">
+															<input type="text" class="form-style"
+																placeholder="Nombre Completo">
+															<i class="input-icon uil uil-user"></i>
+														</div>
+														<div class="form-group mt-2">
+															<input type="tel" class="form-style"
+																placeholder="Numero de Telefono">
+															<i class="input-icon uil uil-phone"></i>
+														</div>
+														<div class="form-group mt-2">
+															<input type="email" class="form-style" placeholder="Correo">
+															<i class="input-icon uil uil-at"></i>
+														</div>
+														<div class="form-group mt-2">
+															<input type="password" class="form-style"
+																placeholder="Contraseña">
+															<i class="input-icon uil uil-lock-alt"></i>
+														</div>
+														<a href="/auth"
+															class="btn mt-4">Registrarme</a>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</form>
+</body>
 
-        <main class="form-signin">
-            <form>
-                <img class="mb-4" type="image/png"  src="IMG/login.png" alt="" width="100" height="100"> 
-                <div class=" p-3 mb-2 bg-info text-dark">
-                    <h1 class="h3 mb-3 fw-normal">Sign in</h1>
-
-                    <div class="form-floating">
-                        <input type="text" class="form-control" placeholder="name@example.com"  id="Usuario" name="Usuario" required >                     
-                        <label for="floatingInput"><i class="fa fa-envelope" aria-hidden="true" ></i> Usuario</label>
-                    </div>
-                    <div class="form-floating">
-                        <input type="password" class="form-control" placeholder="Password"  id="password" name="password" required>
-                        <label for="floatingPassword"> <i class="fa fa-unlock-alt" aria-hidden="true"></i> Contraseña</label>
-                    </div>
-
-                    <div class="checkbox mb-3">
-                        <label>
-                            <input type="checkbox" value="remember-me"> Recordarme
-                        </label>
-                    </div>
-
-                    <div class="d-flex">
-
-                        <button class="w-100 btn btn-outline-primary  my-2 my-sm-0 ml-2" type="submit" name="login">Iniciar Sesion</button>
-                        <a class="w-100 btn btn-outline-success my-2 my-sm-0 ml-2" type="submit"  href="Registro.jsp">Registrarme</a>
-
-
-                    </div>
-                </div>
-
-            </form>
-        </main>
-
-    </body>
 </html>

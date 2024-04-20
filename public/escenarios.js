@@ -71,15 +71,14 @@ async function getEscenario() {
 
 async function editarEscenario(idEscenario) {
     try {
-        const nuevoNombre = prompt('Ingresa el nuevo nombre del Escenario:');
-        if (nuevoNombre === null) {
-            console.log('La operación de edición fue cancelada.');
-            return;
-        }
-        console.log(idEscenario)
+        const nuevoNombre = document.getElementById(`nuevoNombre-${idEscenario}`).value;
+        const idNuevoHorario = document.getElementById(`idNuevoHorario-${idEscenario}`).value;
+        
         const EscenarioActualizado = {
             nombre: nuevoNombre,
+            idHorario: idNuevoHorario,
         };
+        
         const result = await fetchAPI(`/Escenarios/${idEscenario}`, 'PUT', EscenarioActualizado);
         if (result.success) {
             location.reload();

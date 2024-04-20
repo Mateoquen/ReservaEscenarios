@@ -66,7 +66,27 @@
                 <th>DIA</th>
                 <th>HORA</th>
             </tr>
-          
+            <% for (let i=0; i < Disponibilidades.length; i++) { %>
+                <% for (let j=0; j < Disponibilidades[i].length; j++) { %>
+                    <tr>
+                        <td>
+                            <%= Disponibilidades[i][j].idDisponibilidad %>
+                        </td>
+                        <td>
+                            <%= Disponibilidades[i][j].nombre %>
+                        </td>
+                        <td>
+                            <%= Disponibilidades[i][j].mes %>
+                        </td>
+                        <td>
+                            <%= Disponibilidades[i][j].dia %>
+                        </td>
+                        <td>
+                            <%= Disponibilidades[i][j].hora %>
+                        </td>
+                    </tr>
+                <% } %>
+            <% } %>
         </table>
 
 

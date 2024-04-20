@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HORARIOS</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" href="/views/css/styles.css">
+</head>
+
+<body id="views">
+    <div class="container" id="container-views">
+        
+        <nav class="navbar navbar-expand-lg navbar-light bg-light custom-navbar">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="#">RESERVA DE ESCENARIOS</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="/">Inicio</a>
+                        </li>
+
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                                Opciones
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">                                
+                                <li><a class="dropdown-item" href="/Roles">Roles</a></li>
+                                <li><a class="dropdown-item" href="/Apartamentos">Apartamentos</a></li>
+                                <li><a class="dropdown-item" href="/Usuario">Usuarios</a></li>
+                                <li><a class="dropdown-item" href="/Escenarios">Escenarios Deportivos</a></li>    
+                                <li><a class="dropdown-item" href="/Disponibilidades">Ver Disponibilidades</a></li>
+                                <li><a class="dropdown-item" href="/Reserva">Realizar reserva</a></li>                                
+                                <!-- Otras opciones del menú -->
+                            </ul>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="/auth">Cerrar sesión</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <h1>HORARIOS</h1>
+        <form action="" method="post">
+            <label for="nombre">Nombre</label>
+            <input title="nombre" type="text" name="nombre" id="nombre" required>
+            <label for="horaInicial">Hora Inicial</label>
+            <input title="horaInicial" type="time" name="horaInicial" id="horaInicial" required>
+            <label for="horaFinal">Hora Final</label>
+            <input title="horaFinal" type="time" name="horaFinal" id="horaFinal" required>
+            <button type="button" onclick="createHorario()">Crear Horario</button>
+        </form>
+        <table>
+            
+            <tr>
+                <th>ID</th>
+                <th>NOMBRE</th>
+                <th>HORA INICIAL</th>
+                <th>HORA FINAL</th>
+                <th>EDITAR -- ELIMINAR</th>
+            </tr>
+            <% for (let i = 0; i < Horarios.length; i++) { %>
+                <% for (let j = 0; j < Horarios[i].length; j++) { %>
+                    <tr>
+                        <td><%= Horarios[i][j].idHorario %></td>
+                        <td><%= Horarios[i][j].nombre %></td>
+                        <td><%= Horarios[i][j].horaInicial %></td>
+                        <td><%= Horarios[i][j].horaFinal %></td>      
+                        <td>
+                            <a href="#" class="btn-editar" id="btn-editar" title="editar" data-idHorario="<%= Horarios[i][j].idHorario %>">Editar</a>
+                            <a href="#" class="btn-eliminar" id="btn-eliminar" title="eliminar" data-idHorario="<%= Horarios[i][j].idHorario %>">Eliminar</a>
+                        </td>
+                    </tr>
+                <% } %>
+            <% } %>
+        </table>
+    </div>
+    <script src="/public/Horarios.js"></script>
+</body>
+
+</html>

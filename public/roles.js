@@ -18,26 +18,7 @@ async function fetchAPI(url, method, data) {
     }
 }
 
-document.addEventListener("DOMContentLoaded", function () {
-    const editarButtons = document.querySelectorAll('.btn-editar');
-    const eliminarButtons = document.querySelectorAll('.btn-eliminar'); 
 
-    editarButtons.forEach(button => {
-        button.addEventListener('click', function (event) {
-            event.preventDefault();
-            const idRol= button.getAttribute('data-idRol');
-            editarRol(idRol);
-        });
-    });
-
-    eliminarButtons.forEach(button => { 
-        button.addEventListener('click', function (event) {
-            event.preventDefault();
-            const idRol = button.getAttribute('data-idRol');
-            eliminarRol(idRol);
-        });
-    });
-});
 
 async function createRol() {
     try {
@@ -71,14 +52,12 @@ async function getRol() {
 
 async function editarRol(idRol) {
     try {
-        const nuevoRol = prompt('Ingresa el nuevo Rol:');
-        if (nuevoRol === null) {
-            console.log('La operación de edición fue cancelada.');
-            return;
-        }
-        console.log(idRol)
+        const nuevoRol = document.getElementById(`nuevoRol-${idRol}`).value;
+        const nuevoAdmon = document.getElementById(`nuevoAdmon-${idRol}`).value;
+
         const RolActualizado = {
             nombre: nuevoRol,
+            admon: nuevoAdmon,
         };
         const result = await fetchAPI(`/Roles/${idRol}`, 'PUT', RolActualizado);
         if (result.success) {
@@ -90,6 +69,27 @@ async function editarRol(idRol) {
         console.error('Error al editar el Rol:', error.message);
     }
 }
+
+document.addEventListener("DOMContentLoaded", function () {
+    const editarButtons = document.querySelectorAll('.btn-editar');
+    const eliminarButtons = document.querySelectorAll('.btn-eliminar'); 
+
+    editarButtons.forEach(button => {
+        button.addEventListener('click', function (event) {
+            event.preventDefault();
+            const idRol= button.getAttribute('data-idRol');
+            editarRol(idRol);
+        });
+    });
+
+    eliminarButtons.forEach(button => { 
+        button.addEventListener('click', function (event) {
+            event.preventDefault();
+            const idRol = button.getAttribute('data-idRol');
+            eliminarRol(idRol);
+        });
+    });
+});
 
 async function eliminarRol(idRol) { 
     try {

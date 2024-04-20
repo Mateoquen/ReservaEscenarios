@@ -60,11 +60,13 @@ const updateEscenario = async (req, res) => {
   console.log(req)
   const idEscenario = req.params.id;
   const nuevoNombre = req.body.nombre;
+  const idHorario = req.body.idHorario;
   try {
     console.log(req)
-      const query = 'UPDATE EscenariosDeportivos SET nombre=@nombre WHERE idEscenario=@idEscenario';
+      const query = 'UPDATE EscenariosDeportivos SET nombre=@nombre,idHorario=@idHorario  WHERE idEscenario=@idEscenario';
       const result = await rest.executeQuery(query, [{name:'nombre', type: 'varchar', value:nuevoNombre},
         {name:'idEscenario', type: 'int', value:idEscenario},
+        {name:'idHorario', type: 'int', value:idHorario},
       ]);
       
       res.json({ success: true, data: result });

@@ -1,79 +1,63 @@
-const express = require('express');
+// controllers/usuariosController.js
+const Apartamento = require('../models/Apartamento');
 const path = require('path');
-const rest = require('../public/config');
 
-
-const mostrarApto = async (req, res) => {
+class apartamentosController {
+  static async mostrarTodos(req, res) {
     try {
-        const Apartamentos = await getApto();
-        res.render('Apartamentos', {Apartamentos});
+      const apartamentos = await Apartamento.obtenerTodos();
+      res.render(path.join(__dirname, '..', 'views', 'apartamento'), { apartamentos });
     } catch (error) {
-        console.error('Error al mostrar Apartamento:', error.message);
-        res.status(500).json({ error: 'Error al mostrar Apartamento' });
+      res.status(500).send('Error al obtener usuarios desde la base de datos');
     }
-};
-
-const createApto = async (apartamento) => {
-    try {
-   
-        console.log(apartamento.estado)
-        const query = "INSERT INTO Apartamentos (numeroApto,numeroTorre,estado) VALUES (@numeroApto,@numeroTorre,@estado)";
-        const result = await rest.executeQuery(query, [{name:'numeroApto', type: 'varchar', value:apartamento.numeroApto},
-        {name:'numeroTorre', type: 'varchar', value:apartamento.numeroTorre},
-        {name:'estado', type: 'smallint', value:apartamento.estado}
-        ]);
-        return result;
-    } catch (error) {
-        throw error;
-    }
-};
-
-async function getApto() {
-    try {
-        const query = "select idApartamento,numeroApto,numeroTorre, case estado when 1 then 'ACTIVO' else 'BLOQUEADO' end as estado from apartamentos";
-        const result = await rest.executeQuery(query);
-        return result.data;
-    } catch (error) {
-        console.error('Error al obtener los Apartamentos:', error.message);
-        throw error;
-    }
-} 
-
-const updateApto = async (req, res) => {
-  console.log(req)
-  const idApartamento = req.params.id;
-  const numeroApto = req.body.numeroApto;
-  const numeroTorre = req.body.numeroTorre;
-  const estado = req.body.estado;
-  try {
-    console.log(req)
-      const query = 'UPDATE Apartamentos SET numeroApto=@numeroApto, numeroTorre=@numeroTorre, estado=@estado WHERE idApartamento=@idApartamento';
-      const result = await rest.executeQuery(query, [{name:'numeroApto', type: 'varchar', value:numeroApto},
-        {name:'numeroTorre', type: 'varchar', value:numeroTorre},
-        {name:'estado', type: 'bit', value:estado},
-        {name:'idApartamento', type: 'int', value:idApartamento},
-      ]);
-      
-      res.json({ success: true, data: result });
-  } catch (error) {
-      res.status(500).json({ success: false, error: error.message });
   }
-};
 
-const deleteApto = async (id) => {
+  static async mostrarApartamento(req, res) {
     try {
-        const query = 'DELETE FROM Apartamentos WHERE idApartamento=@idApartamento';
-        const result = await rest.executeQuery(query, [{name:'idApartamento', type: 'int', value:id}]);
-        return result;
+      const apartamento = await Apartamento.obtenerPorId(req.params.id);
+      if (!apartamento) {
+        res.status(404).send('Apartamento no encontrado');
+        return;
+      }
+      res.render('apartamento/detalles', { apartamento });
     } catch (error) {
-        throw error;
+      res.status(500).send('Error al obtener apartamento desde la base de datos');
     }
-};
+  }
 
-module.exports = {
-    mostrarApto,
-    createApto,
-    getApto,
-    updateApto,
-    deleteApto,
-};
+  static async agregarApartamento(req, res) {
+    try {
+      const { numeroApto,numeroTorre,estado } = req.body;
+      const nuevoApartamento = new Apartamento(numeroApto,numeroTorre,estado);
+      await nuevoApartamento.guardar();
+      res.redirect('/apartamentos');
+    } catch (error) {
+      res.status(500).send('Error al agregar apartamento a la base de datos');
+    }
+  }
+
+  static async actualizarApartamento(req, res) {
+    try {
+      const { numeroApto,numeroTorre,estado } = req.body;
+      const apartamento = new Apartamento(numeroApto,numeroTorre,estado);
+      apartamento.id = req.params.id;
+      await apartamento.actualizar();
+      res.redirect('/apartamentos');
+    } catch (error) {
+      res.status(500).send('Error al actualizar apartamento en la base de datos');
+    }
+  }
+
+  static async eliminarApartamento(req, res) {
+    try {
+      const apartamento = new Apartamento();
+      apartamento.id = req.params.id;
+      await apartamento.eliminar();
+      res.redirect('/apartamentos');
+    } catch (error) {
+      res.status(500).send('Error al eliminar apartamento de la base de datos');
+    }
+  }
+}
+
+module.exports = apartamentosController;

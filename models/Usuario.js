@@ -1,5 +1,6 @@
 const { sql, poolPromise } = require('../config/dbConfig');
-const logger = require('../config/logger'); 
+const logger = require('../config/logger');
+const bcrypt = require('bcrypt');
 
 class Usuario {
   constructor(nombre, clave, idRol, idApartamento) {
@@ -58,10 +59,14 @@ class Usuario {
   static async obtenerTodos() {
     try {
       const pool = await poolPromise;
-      const result = await pool.request().query(" select idUsuario,u.nombre , u.clave, r.nombre as nombreRol, a.numeroApto+'' + a.numeroTorre as nombreApartamento "+
-      "   from usuarios u "+
-      "  inner join roles r on u.idRol= r.idRol " +
-      " inner join Apartamentos a on u.idApartamento=a.idApartamento ");
+      const result = await pool.request().query(`
+      SELECT idUsuario, u.nombre, u.clave, 
+      isnull(r.nombre,'SIN ROL') AS nombreRol, 
+      isnull(a.numeroApto,'SIN') + '' + isnull(a.numeroTorre,'APTO') AS nombreApartamento
+      FROM usuarios u
+      left JOIN roles r ON u.idRol = r.idRol
+      left JOIN Apartamentos a ON u.idApartamento = a.idApartamento
+      `);
       return result.recordset;
     } catch (error) {
       logger.error('Error al obtener usuarios desde la base de datos', error);
@@ -74,13 +79,31 @@ class Usuario {
       const pool = await poolPromise;
       const result = await pool.request()
         .input('id', sql.Int, id)
-        .query(" select idUsuario,u.nombre , u.clave, r.nombre as nombreRol, a.numeroApto+'' + a.numeroTorre as nombreApartamento "+
-        "   from usuarios u "+
-        "  inner join roles r on u.idRol= r.idRol " +
-        " inner join Apartamentos a on u.idApartamento=a.idApartamento  WHERE u.idUsuario = @id");
+        .query(`
+          SELECT idUsuario, u.nombre, u.clave, 
+          isnull(r.nombre,'SIN ROL') AS nombreRol, 
+          isnull(a.numeroApto,'SIN') + '' + isnull(a.numeroTorre,'APTO') AS nombreApartamento
+          FROM usuarios u
+          left JOIN roles r ON u.idRol = r.idRol
+          left JOIN Apartamentos a ON u.idApartamento = a.idApartamento
+          WHERE u.idUsuario = @id
+        `);
       return result.recordset[0];
     } catch (error) {
       logger.error('Error al obtener usuario por ID desde la base de datos', error);
+      throw error;
+    }
+  }
+
+  static async obtenerPorNombre(nombre) {
+    try {
+      const pool = await poolPromise;
+      const result = await pool.request()
+        .input('nombre',sql.VarChar, nombre)
+        .query('SELECT * FROM usuarios WHERE nombre = @nombre');
+      return result.recordset[0];
+    } catch (error) {
+      logger.error('Error al obtener usuario por nombre desde la base de datos', error);
       throw error;
     }
   }

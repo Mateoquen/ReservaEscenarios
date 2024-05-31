@@ -1,9 +1,9 @@
-// controllers/usuariosController.js
 const Usuario = require('../models/Usuario');
 const Rol = require('../models/Rol');
 const Apartamento = require('../models/Apartamento');
 const path = require('path');
 const { validationResult } = require('express-validator');
+const bcrypt = require('bcrypt');
 
 class UsuariosController {
   static async mostrarTodos(req, res) {
@@ -36,10 +36,11 @@ class UsuariosController {
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
-    
+
     try {
       const { nombre, clave, idRol, idApartamento } = req.body;
-      const nuevoUsuario = new Usuario(nombre, clave, idRol, idApartamento);
+      const hashedPassword = await bcrypt.hash(clave, 10); // Hash de la contraseña
+      const nuevoUsuario = new Usuario(nombre, hashedPassword, idRol, idApartamento); // Usar la contraseña hasheada
       await nuevoUsuario.guardar();
       res.redirect('/usuarios');
     } catch (error) {
@@ -51,20 +52,21 @@ class UsuariosController {
   static async actualizarUsuario(req, res) {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-        return res.status(400).json({ errors: errors.array() });
+      return res.status(400).json({ errors: errors.array() });
     }
-    
+
     try {
-        const { nombre, clave, idRol, idApartamento } = req.body;
-        const usuario = new Usuario(nombre, clave, idRol, idApartamento);
-        usuario.id = req.params.id;
-        await usuario.actualizar(); 
-        res.redirect('/usuarios');
+      const { nombre, clave, idRol, idApartamento } = req.body;
+      const hashedPassword = await bcrypt.hash(clave, 10); // Hash de la nueva contraseña
+      const usuario = new Usuario(nombre, hashedPassword, idRol, idApartamento); // Usar la contraseña hasheada
+      usuario.id = req.params.id;
+      await usuario.actualizar();
+      res.redirect('/usuarios');
     } catch (error) {
-        console.error(error);
-        res.status(500).send('Error al actualizar usuario en la base de datos');
+      console.error(error);
+      res.status(500).send('Error al actualizar usuario en la base de datos');
     }
-}
+  }
 
   static async eliminarUsuario(req, res) {
     try {

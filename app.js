@@ -1,92 +1,93 @@
-// app.js
-
 const express = require('express');
-const session= require('express-session');
-const passport= require('passport');
-const cookieParser= require('cookie-parser');
-const PassportLocal= require('passport-local').Strategy;
+const flash = require('express-flash');
+const session = require('express-session');
+const passport = require('passport');
+const cookieParser = require('cookie-parser');
 const path = require('path');
 const bodyParser = require('body-parser');
+const bcrypt = require('bcrypt');
+const ensureAuthenticated = require('./middlewares/auth'); 
+require('./config/passport'); 
+
+const Usuario = require('./models/Usuario'); 
 
 const app = express();
 app.use(express.json());
 
-// Configuración de bodyParser
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-// Configurar el motor de plantillas EJS
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
-
-// Middleware para servir archivos estáticos
 app.use(express.static(path.join(__dirname, 'views')));
 app.use('/views', express.static(path.join(__dirname, 'views')));
 
-app.use(express.urlencoded({extended:true}))
-app.use(cookieParser('mi secreto'))
+app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser('mi secreto'));
 app.use(session({
-    secret:'mi secreto',
+    secret: 'mi secreto',
     resave: true,
-    saveUninitialized:true
-}))
-app.use(passport.initialize())
-app.use(passport.session())
-
-passport.use(new PassportLocal(function(username,password,done){
-
-    if (username=="Mateo@" && password=="12345"){
-        return done(null,{id:1,name:"Mateo"})
-    }
-    done(null,false)
-}))
-
-// {id:1,name:"Mateo"}
-// 1=> Serializacion
-passport.serializeUser(function(user,done){
-  done(null.user.id)
-})
-//Deserializacion
-passport.deserializeUser(function(id,done){
-  done(null,{id:1,name:"Mateo"})
-})
-
+    saveUninitialized: true
+}));
+app.use(flash());
+app.use(passport.initialize());
+app.use(passport.session());
 
 /////////////////////RUTAS///////////////////////////
 // Ruta de autenticacion
-app.get("/Auth",(req,res)=>{
-  res.render("Auth")   
-})
-// Ruta de inicio
-app.get("/",(req,res,next)=>{
-  if(req.isAuthenticated())return next()    
-      res.redirect("/Auth")
-},(req,res)=>{
-  res.sendFile(path.join(__dirname, 'views', 'index.html'));
-})
+app.get("/Auth", (req, res) => {
+    res.render("Auth");
+});
 
-// app.get('/', (req, res) => {
-//   res.sendFile(path.join(__dirname, 'views', 'index.html'));
-// });
+//ruta para cerrar sesion
+app.get('/logout', (req, res) => {
+    req.logout(() => { 
+        res.redirect('/Auth'); 
+    });
+});
 
+// Ruta de registro
+app.post('/register', async (req, res) => {
+    const { nombreCompleto, password } = req.body; 
+    try {
+        const existingUser = await Usuario.obtenerPorNombre(nombreCompleto);
+        if (existingUser) {
+            // Si el usuario ya existe, renderizamos la vista Auth con el mensaje de error
+            return res.render('Auth', { error: 'El usuario ya está registrado' });
+        }
 
+        const hashedPassword = await bcrypt.hash(password, 10);
+        const nuevoUsuario = new Usuario(nombreCompleto, hashedPassword, null,null); 
+        await nuevoUsuario.guardar(); 
+        res.redirect('/Auth'); 
+    } catch (error) {
+        console.error('Error al registrar usuario:', error);
+        res.status(500).send('Error al registrar usuario');
+    }
+});
+
+// Ruta de autenticación con Passport
+app.post("/Auth", passport.authenticate('local', {
+    successRedirect: "/",
+    failureRedirect: "/Auth",
+    failureFlash: true // Habilita el uso de mensajes flash para errores de autenticación
+}));
+
+// Rutas protegidas
+app.get("/", ensureAuthenticated, (req, res) => {
+    res.render(path.join(__dirname, 'views', 'index.html'));
+});
 
 // USUARIOS
 const UsuariosController = require('./controllers/usuariosController');
-app.get('/usuarios', UsuariosController.mostrarTodos);
-app.post('/usuarios/agregar', UsuariosController.agregarUsuario);
-app.post('/usuarios/actualizar/:id', UsuariosController.actualizarUsuario);
-app.get('/usuarios/eliminar/:id', UsuariosController.eliminarUsuario);
-
-
-app.post("/Auth",passport.authenticate('local',{
-  successRedirect:"/",
-  failureRedirect:"/Auth"
-}))
+app.get('/usuarios', ensureAuthenticated, UsuariosController.mostrarTodos);
+app.post('/usuarios/agregar', ensureAuthenticated, UsuariosController.agregarUsuario);
+app.post('/usuarios/actualizar/:id', ensureAuthenticated, UsuariosController.actualizarUsuario);
+app.get('/usuarios/eliminar/:id', ensureAuthenticated, UsuariosController.eliminarUsuario);
 
 // Puerto e inicio
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-  console.log(`Servidor corriendo en el puerto ${PORT}`);
+    console.log(`Servidor corriendo en el puerto ${PORT}`);
 });

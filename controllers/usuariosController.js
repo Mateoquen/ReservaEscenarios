@@ -39,7 +39,7 @@ class UsuariosController {
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
-
+    console.log(req.body)
     try {
       const { idTipoId,identificacion,nombre, clave, idRol, idApartamento } = req.body;
       const hashedPassword = await bcrypt.hash(clave, 10); // Hash de la contraseña

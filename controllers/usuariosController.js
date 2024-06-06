@@ -1,6 +1,8 @@
 const Usuario = require('../models/Usuario');
 const Rol = require('../models/Rol');
 const Apartamento = require('../models/Apartamento');
+const TipoIdentificacion = require('../models/TipoIdentificacion')
+
 const path = require('path');
 const { validationResult } = require('express-validator');
 const bcrypt = require('bcrypt');
@@ -11,7 +13,8 @@ class UsuariosController {
       const usuarios = await Usuario.obtenerTodos();
       const rolesOptions = await Rol.obtenerTodos();
       const apartamentosOptions = await Apartamento.obtenerTodos();
-      res.render(path.join(__dirname, '..', 'views', 'usuarios'), { usuarios, rolesOptions, apartamentosOptions });
+      const tipoIdOptions = await TipoIdentificacion.obtenerTodos();
+      res.render(path.join(__dirname, '..', 'views', 'usuarios'), { usuarios, rolesOptions, apartamentosOptions,tipoIdOptions });
     } catch (error) {
       console.error(error);
       res.status(500).send('Error al obtener usuarios desde la base de datos');
@@ -38,9 +41,9 @@ class UsuariosController {
     }
 
     try {
-      const { nombre, clave, idRol, idApartamento } = req.body;
+      const { idTipoId,identificacion,nombre, clave, idRol, idApartamento } = req.body;
       const hashedPassword = await bcrypt.hash(clave, 10); // Hash de la contraseña
-      const nuevoUsuario = new Usuario(nombre, hashedPassword, idRol, idApartamento); // Usar la contraseña hasheada
+      const nuevoUsuario = new Usuario(idTipoId,identificacion,nombre, hashedPassword, idRol, idApartamento); // Usar la contraseña hasheada
       await nuevoUsuario.guardar();
       res.redirect('/usuarios');
     } catch (error) {
@@ -56,9 +59,9 @@ class UsuariosController {
     }
 
     try {
-      const { nombre, clave, idRol, idApartamento } = req.body;
+      const { idTipoId,identificacion,nombre, clave, idRol, idApartamento } = req.body;
       const hashedPassword = await bcrypt.hash(clave, 10); // Hash de la nueva contraseña
-      const usuario = new Usuario(nombre, hashedPassword, idRol, idApartamento); // Usar la contraseña hasheada
+      const usuario = new Usuario(idTipoId,identificacion,nombre, hashedPassword, idRol, idApartamento); // Usar la contraseña hasheada
       usuario.id = req.params.id;
       await usuario.actualizar();
       res.redirect('/usuarios');

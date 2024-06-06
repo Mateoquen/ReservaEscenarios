@@ -92,8 +92,8 @@
         <table>
 
             <tr>
-                <th>ID</th>
                 <th>TIPO ID</th>
+                <th>ID</th>
                 <th>N° IDENTIFICACION</th>
                 <th>NOMBRE</th>
                 <!-- <th>clave</th> -->
@@ -103,10 +103,10 @@
             </tr>
             <% usuarios.forEach(usuario => { %>
                   <tr>
-                    <td><%= usuario.idUsuario %></td>
-                    <td><%= usuario.nombre %></td>
                     <td><%= usuario.nombreTipoId %></td>
                     <td><%= usuario.identificacion %></td>
+                    <td><%= usuario.idUsuario %></td>
+                    <td><%= usuario.nombre %></td>
                     <!-- <td><%= usuario.clave %></td> -->
                     <td><%= usuario.nombreRol %></td>
                     <td><%= usuario.nombreApartamento %></td>
@@ -143,7 +143,7 @@
                                         </select>
                                         <br>
                                         <label for="identificacion">Identificacion</label>
-                                        <input title="identificacion" type="number" name="identificacion" id="identificacion" required placeholder="Identificacion" value=" usuario.identificacion ">
+                                        <input title="identificacion" type="number" name="identificacion" id="identificacion" required placeholder="Identificacion" value="<%= usuario.identificacion %>">
                                         <br>
                                         <label>Nombre</label>
                                         <input type="text" class="form-control mb-3" name="nombre" id="nombre" required value="<%= usuario.nombre %>">

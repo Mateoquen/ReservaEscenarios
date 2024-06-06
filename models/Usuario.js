@@ -41,7 +41,10 @@ class Usuario {
         .input('idTipoId', sql.Int, this.idTipoId)
         .input('identificacion', sql.Int, this.identificacion)
         .input('id', sql.Int, this.id)
-        .query('UPDATE usuarios SET nombre = @nombre, clave = @clave, idRol = @idRol, idApartamento = @idApartamento, idTipoId=@idTipoId, identificacion = @identificacion WHERE idUsuario = @id');
+        .query("UPDATE usuarios SET nombre = @nombre, "+
+         " clave = case when @clave is null or clave = '' then clave else @clave end  , "+ 
+         " idRol = @idRol, idApartamento = @idApartamento, "+
+         " idTipoId=@idTipoId, identificacion = @identificacion WHERE idUsuario = @id ");
       return result.rowsAffected;
     } catch (error) {
       logger.error('Error al actualizar el usuario en la base de datos', error);

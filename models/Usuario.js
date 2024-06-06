@@ -3,7 +3,9 @@ const logger = require('../config/logger');
 const bcrypt = require('bcrypt');
 
 class Usuario {
-  constructor(nombre, clave, idRol, idApartamento) {
+  constructor(idTipoId,identificacion,nombre, clave, idRol, idApartamento) {
+    this.idTipoId= idTipoId;
+    this.identificacion= identificacion;
     this.nombre = nombre;
     this.clave = clave;
     this.idRol = idRol;
@@ -18,7 +20,9 @@ class Usuario {
         .input('clave', sql.VarChar, this.clave)
         .input('idRol', sql.Int, this.idRol)
         .input('idApartamento', sql.Int, this.idApartamento)
-        .query('INSERT INTO usuarios (nombre, clave, idRol, idApartamento) VALUES (@nombre, @clave, @idRol, @idApartamento)');
+        .input('idTipoId', sql.Int, this.idTipoId)
+        .input('identificacion', sql.Int, this.identificacion)
+        .query('INSERT INTO usuarios (nombre, clave, idRol, idApartamento,idTipoId,identificacion) VALUES (@nombre, @clave, @idRol, @idApartamento,@idTipoId, @identificacion)');
       return result.rowsAffected;
     } catch (error) {
       logger.error('Error al guardar el usuario en la base de datos', error);
@@ -33,9 +37,11 @@ class Usuario {
         .input('nombre', sql.VarChar, this.nombre)
         .input('clave', sql.VarChar, this.clave)
         .input('idRol', sql.Int, this.idRol)
-        .input('idApartamento', sql.Int, this.idApartamento)
+        .input('idApartamento', sql.Int, this.idApartamento)        
+        .input('idTipoId', sql.Int, this.idTipoId)
+        .input('identificacion', sql.Int, this.identificacion)
         .input('id', sql.Int, this.id)
-        .query('UPDATE usuarios SET nombre = @nombre, clave = @clave, idRol = @idRol, idApartamento = @idApartamento WHERE idUsuario = @id');
+        .query('UPDATE usuarios SET nombre = @nombre, clave = @clave, idRol = @idRol, idApartamento = @idApartamento, idTipoId=@idTipoId, identificacion = @identificacion WHERE idUsuario = @id');
       return result.rowsAffected;
     } catch (error) {
       logger.error('Error al actualizar el usuario en la base de datos', error);
@@ -60,12 +66,17 @@ class Usuario {
     try {
       const pool = await poolPromise;
       const result = await pool.request().query(`
-      SELECT idUsuario, u.nombre, u.clave, 
-      isnull(r.nombre,'SIN ROL') AS nombreRol, 
-      isnull(a.numeroApto,'SIN') + '' + isnull(a.numeroTorre,'APTO') AS nombreApartamento
-      FROM usuarios u
-      left JOIN roles r ON u.idRol = r.idRol
-      left JOIN Apartamentos a ON u.idApartamento = a.idApartamento
+      SELECT idUsuario, 
+      ti.codigoTipoId+' '+ ti.nombreTipoId as nombreTipoId ,
+      u.identificacion,
+      u.nombre, 
+      u.clave, 
+        isnull(r.nombre,'SIN ROL') AS nombreRol, 
+        isnull(a.numeroApto,'SIN') + '' + isnull(a.numeroTorre,'APTO') AS nombreApartamento
+        FROM usuarios u
+        left JOIN roles r ON u.idRol = r.idRol
+        left JOIN Apartamentos a ON u.idApartamento = a.idApartamento
+      inner join tipoIdentificacion ti on u.idTipoId=ti.idTipoId
       `);
       return result.recordset;
     } catch (error) {
@@ -80,12 +91,17 @@ class Usuario {
       const result = await pool.request()
         .input('id', sql.Int, id)
         .query(`
-          SELECT idUsuario, u.nombre, u.clave, 
+        SELECT idUsuario, 
+        ti.codigoTipoId+' '+ ti.nombreTipoId as nombreTipoId ,
+        u.identificacion,
+        u.nombre, 
+        u.clave, 
           isnull(r.nombre,'SIN ROL') AS nombreRol, 
           isnull(a.numeroApto,'SIN') + '' + isnull(a.numeroTorre,'APTO') AS nombreApartamento
           FROM usuarios u
           left JOIN roles r ON u.idRol = r.idRol
           left JOIN Apartamentos a ON u.idApartamento = a.idApartamento
+          inner join tipoIdentificacion ti on u.idTipoId=ti.idTipoId
           WHERE u.idUsuario = @id
         `);
       return result.recordset[0];

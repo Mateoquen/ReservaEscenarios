@@ -49,7 +49,7 @@ app.get('/logout', (req, res) => {
 
 // Ruta de registro
 app.post('/register', async (req, res) => {
-    const { nombreCompleto, password } = req.body; 
+    const { idTipoId,identificacion,nombreCompleto, password} = req.body; 
     try {
         const existingUser = await Usuario.obtenerPorNombre(nombreCompleto);
         if (existingUser) {
@@ -58,7 +58,7 @@ app.post('/register', async (req, res) => {
         }
 
         const hashedPassword = await bcrypt.hash(password, 10);
-        const nuevoUsuario = new Usuario(nombreCompleto, hashedPassword, null,null); 
+        const nuevoUsuario = new Usuario(idTipoId,identificacion,nombreCompleto, hashedPassword, null,null); 
         await nuevoUsuario.guardar(); 
         res.redirect('/Auth'); 
     } catch (error) {

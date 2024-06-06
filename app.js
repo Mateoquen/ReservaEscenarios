@@ -76,7 +76,7 @@ app.post("/Auth", passport.authenticate('local', {
 
 // Rutas protegidas
 app.get("/", ensureAuthenticated, (req, res) => {
-    res.render(path.join(__dirname, 'views', 'index.html'));
+    res.render(path.join(__dirname, 'views', 'index.ejs'));
 });
 
 // USUARIOS

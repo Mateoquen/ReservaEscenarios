@@ -55,10 +55,21 @@
         </nav>
         <h1>usuarios</h1>
         <form action="/usuarios/agregar" method="post">
+            <label for="tipoId">tipoId</label>
+            <select title="idRol" name="idRol" id="idRol">
+                <optgroup label="rol">
+                    <% tipoIdOptions.forEach(tipoId => { %>
+                        <option value="<%= tipoId.idTipoId %>"><%= tipoId.nombreTipoId %></option>
+                    <% }) %>
+                </optgroup>
+            </select>
+            <label for="identificacion">Identificacion</label>
+            <input title="identificacion" type="number" name="identificacion" id="identificacion" required placeholder="Identificacion">
+            <br>
             <label for="Nombre">nombre</label>
-            <input title="nombre" type="text" name="nombre" id="nombre" required>
+            <input title="nombre" type="text" name="nombre" id="nombre" required placeholder="Nombres">
             <label for="clave">Clave</label>
-            <input title="clave" type="password" name="clave" id="clave" required>
+            <input title="clave" type="password" name="clave" id="clave" required placeholder="Contraseña">
             <label for="Rol">Rol</label>
             <select title="idRol" name="idRol" id="idRol">
                 <optgroup label="rol">
@@ -82,15 +93,20 @@
 
             <tr>
                 <th>ID</th>
+                <th>TIPO ID</th>
+                <th>N° IDENTIFICACION</th>
                 <th>NOMBRE</th>
                 <!-- <th>clave</th> -->
-                <th>Rol</th>
-                <th>Apartamento</th>
+                <th>ROL</th>
+                <th>APARTAMENTO</th>
+                <th>OPCIONES</th>
             </tr>
             <% usuarios.forEach(usuario => { %>
-                <tr>
+                  <tr>
                     <td><%= usuario.idUsuario %></td>
                     <td><%= usuario.nombre %></td>
+                    <td><%= usuario.nombreTipoId %></td>
+                    <td><%= usuario.identificacion %></td>
                     <!-- <td><%= usuario.clave %></td> -->
                     <td><%= usuario.nombreRol %></td>
                     <td><%= usuario.nombreApartamento %></td>
@@ -117,6 +133,18 @@
                                 </div>
                                 <div class="modal-body">
                                     <form action="/usuarios/actualizar/<%= usuario.idUsuario %>" method="post">
+                                        <label for="tipoId">tipoId</label>
+                                        <select title="idTipoId" name="idTipoId" id="idTipoId">
+                                            <optgroup label="rol">
+                                                <% tipoIdOptions.forEach(tipoId => { %>
+                                                    <option value="<%= tipoId.idTipoId %>"><%= tipoId.nombreTipoId %></option>
+                                                <% }) %>
+                                            </optgroup>
+                                        </select>
+                                        <br>
+                                        <label for="identificacion">Identificacion</label>
+                                        <input title="identificacion" type="number" name="identificacion" id="identificacion" required placeholder="Identificacion" value=" usuario.identificacion ">
+                                        <br>
                                         <label>Nombre</label>
                                         <input type="text" class="form-control mb-3" name="nombre" id="nombre" required value="<%= usuario.nombre %>">
                                         <label>Clave</label>

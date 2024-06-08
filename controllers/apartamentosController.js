@@ -6,7 +6,7 @@ class apartamentosController {
   static async mostrarTodos(req, res) {
     try {
       const apartamentos = await Apartamento.obtenerTodos();
-      res.render(path.join(__dirname, '..', 'views', 'apartamento'), { apartamentos });
+      res.render(path.join(__dirname, '..', 'views', 'apartamentos'), { apartamentos });
     } catch (error) {
       res.status(500).send('Error al obtener usuarios desde la base de datos');
     }
@@ -22,7 +22,7 @@ class apartamentosController {
       res.render('apartamento/detalles', { apartamento });
     } catch (error) {
       res.status(500).send('Error al obtener apartamento desde la base de datos');
-    }
+    } 
   }
 
   static async agregarApartamento(req, res) {

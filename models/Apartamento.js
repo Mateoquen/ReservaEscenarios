@@ -5,8 +5,7 @@ class Apartamento {
   constructor(numeroApto, numeroTorre,estado) {
     this.numeroApto = numeroApto;
     this.numeroTorre = numeroTorre;
-    this.estado= estado;
-   
+    this.estado= estado;   
   }
 
   async guardar() {
@@ -59,7 +58,10 @@ class Apartamento {
   static async obtenerTodos() {
     try {
       const pool = await poolPromise;
-      const result = await pool.request().query("SELECT  idApartamento, numeroApto+' '+numeroTorre as Apto  FROM apartamentos");
+      const result = await pool.request().query("SELECT  idApartamento, numeroApto+' '+numeroTorre as Apto , "+
+	    " numeroapto,numerotorre, "+
+      " case when estado=1 then 'ACTIVO' else 'INACTIVO' end as estado "+
+		  " FROM apartamentos");
       return result.recordset;
     } catch (error) {
       console.log('Error al obtener Apartamentos desde la base de datos', error);

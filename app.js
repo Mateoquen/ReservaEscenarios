@@ -86,6 +86,14 @@ app.post('/usuarios/agregar', ensureAuthenticated, UsuariosController.agregarUsu
 app.post('/usuarios/actualizar/:id', ensureAuthenticated, UsuariosController.actualizarUsuario);
 app.get('/usuarios/eliminar/:id', ensureAuthenticated, UsuariosController.eliminarUsuario);
 
+// APARTAMENTOS
+const ApartamentosController = require('./controllers/apartamentosController');
+app.get('/apartamentos', ensureAuthenticated, ApartamentosController.mostrarTodos);
+app.post('/apartamentos/agregar', ensureAuthenticated, ApartamentosController.agregarApartamento);
+app.post('/apartamentos/actualizar/:id', ensureAuthenticated, ApartamentosController.actualizarApartamento);
+app.get('/apartamentos/eliminar/:id', ensureAuthenticated, ApartamentosController.eliminarApartamento);
+
+
 // Puerto e inicio
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {

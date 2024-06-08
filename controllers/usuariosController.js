@@ -21,18 +21,6 @@ class UsuariosController {
     }
   }
 
-  static async mostrarUsuario(req, res) {
-    try {
-      const usuario = await Usuario.obtenerPorId(req.params.id);
-      if (!usuario) {
-        return res.status(404).send('Usuario no encontrado');
-      }
-      res.render('usuarios/detalles', { usuario });
-    } catch (error) {
-      console.error(error);
-      res.status(500).send('Error al obtener usuario desde la base de datos');
-    }
-  }
 
   static async agregarUsuario(req, res) {
     const errors = validationResult(req);

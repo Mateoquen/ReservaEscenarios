@@ -25,7 +25,57 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+
+                        <li class="nav-item">
+                            <a class = "nav-link" href="/">Inicio</a>
+                        </li>
+
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                                Escenarios Deportivos
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li><a class="dropdown-item" href="/Roles">Roles</a></li>
+                                <li><a class="dropdown-item" href="/Usuarios">Usuarios</a></li>
+                                <li><a class="dropdown-item" href="/Horarios">Horarios</a></li>
+                                <li><a class="dropdown-item" href="/Escenarios">Escenarios Deportivos</a></li>    
+                                <li><a class="dropdown-item" href="/Disponibilidades">Ver Disponibilidades</a></li>
+                                <li><a class="dropdown-item" href="/Reserva">Realizar reserva</a></li>
+                            </ul>
+                        </li>"
+
+                        <li class = "nav-item">
+                            <a class = "nav-link" href="/logout">Cerrar sesión</a>
+                        </li>
+                    </ul>
+                </div>  
+            </div>
+        </nav>
+        
+        <h1>Escenarios Deportivos</h1>
+        <form action="/escenariosdeportivos/agregar" method="post">
+            <label for="idEscenario">Escenario</label>
+            <input title="idEscenario" type="text" name="idEscenario" id="idEscenario" required placeholder="Escenario">
+
+            <label for="nombre">Nombre</label>
+            <input title="nombre" type="text" name="nombre" id="nombre" required placeholder="Nombre">
+
+            <label for="idHorarios">Horarios</label>
+            <select title="idHorario" name="idHorario" id="idHorario">
+                <optgroup label="horario">
+                    <% for (let i=0; i < horariosOptions.length; i++) { %>
+                        <% for (let j=0; j < horariosOptions[i].length; j++) { %>
+                            <option value="<%= horariosOptions[i][j].idHorario %>">
+                                <%= horariosOptions[i][j].nombre %>
+                            </option>
+                            <% } %>
+                            <% } %>
+                </optgroup>
+                <button type="button" onclick="createEscenario()">Crear Escenario</button>
+            </select>
+        </form>
     
 </body>
 </html>

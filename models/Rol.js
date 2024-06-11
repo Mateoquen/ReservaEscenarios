@@ -13,7 +13,7 @@ class Rol {
       const result = await pool
         .request()
         .input('nombre', sql.VarChar, this.nombre)
-        .input('administrador', sql.Bit, this.administrador)
+        .input('administrador', sql.Int, this.administrador)
         .query('INSERT INTO roles (nombre, administrador) VALUES (@nombre, @administrador)');
       return result.rowsAffected;
     } catch (error) {
@@ -28,7 +28,7 @@ class Rol {
       const result = await pool
         .request()
         .input('nombre', sql.VarChar, this.nombre)
-        .input('administrador', sql.Bit, this.administrador)
+        .input('administrador', sql.Int, this.administrador)
         .input('id', sql.Int, this.id)
         .query('UPDATE roles SET nombre = @nombre, administrador = @administrador WHERE idRol = @id');
       return result.rowsAffected;
@@ -55,7 +55,7 @@ class Rol {
   static async obtenerTodos() {
     try {
       const pool = await poolPromise;
-      const result = await pool.request().query('SELECT * FROM roles');
+      const result = await pool.request().query("SELECT idrol,nombre,case administrador when 1 then 'SI' else 'NO' end as administrador FROM roles");
       return result.recordset;
     } catch (error) {
       console.log('Error al obtener roles desde la base de datos', error);
@@ -69,7 +69,7 @@ class Rol {
       const result = await pool
         .request()
         .input('id', sql.Int, id)
-        .query('SELECT * FROM roles WHERE idRol = @id');
+        .query("sELECT idrol,nombre,case administrador when 1 then 'SI' else 'NO' end as administrador FROM roles WHERE idRol = @id");
       return result.recordset[0];
     } catch (error) {
       console.log('Error al obtener rol por ID desde la base de datos', error);

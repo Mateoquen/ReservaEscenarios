@@ -93,6 +93,13 @@ app.post('/apartamentos/agregar', ensureAuthenticated, ApartamentosController.ag
 app.post('/apartamentos/actualizar/:id', ensureAuthenticated, ApartamentosController.actualizarApartamento);
 app.get('/apartamentos/eliminar/:id', ensureAuthenticated, ApartamentosController.eliminarApartamento);
 
+// ROLES
+const RolesController = require('./controllers/rolesController');
+app.get('/roles', ensureAuthenticated, RolesController.mostrarTodos);
+app.post('/roles/agregar', ensureAuthenticated, RolesController.agregarRol);
+app.post('/roles/actualizar/:id', ensureAuthenticated, RolesController.actualizarRol);
+app.get('/roles/eliminar/:id', ensureAuthenticated, RolesController.eliminarRol);
+
 
 // Puerto e inicio
 const PORT = process.env.PORT || 3000;

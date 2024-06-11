@@ -6,9 +6,9 @@ class rolesController {
   static async mostrarTodos(req, res) {
     try {
       const roles = await Rol.obtenerTodos();
-      res.render(path.join(__dirname, '..', 'views', 'rol'), { roles });
+      res.render(path.join(__dirname, '..', 'views', 'roles'), { roles });
     } catch (error) {
-      res.status(500).send('Error al obtener usuarios desde la base de datos');
+      res.status(500).send('Error al obtener roles desde la base de datos');
     }
   }
 

@@ -76,6 +76,38 @@
                 <button type="button" onclick="createEscenario()">Crear Escenario</button>
             </select>
         </form>
+
+        <table>
+
+            <tr>
+                <th>Escenario</th>
+                <th>Nombre</th>
+                <th>Horario</th>
+                <th>Acciones --- Editar --- Eliminar</th>
+            </tr>
+            <% for (let i=0; i < escenarios.length; i++) { %>
+                <tr>
+                    <td>
+                        <%= escenarios[i].idEscenario %>
+                    </td>
+                    <td>
+                        <%= escenarios[i].nombre %>
+                    </td>
+                    <td>
+                        <%= escenarios[i].idHorario %>
+                    </td>
+                    <td>
+                        <button class="btn btn-primary btn-sm btn-editar"
+                        data-user-id="<%= escenarios[i].idEscenario %>"
+                        data-bs-toggle="modal"
+                        data-bs-target="#modal-editar-<%= escenarios[i].idEscenario %>">Editar</button>
+                        <a href="#" class="btn-eliminar" id="btn-elimiar" title="eliminar"
+                            data-idEscenario="<%= Escenarios[i][j].idEscenario %>">Eliminar</a>
+                    </td>
+                </tr>
+                <% } %>
+
+        </table>
     
 </body>
 </html>

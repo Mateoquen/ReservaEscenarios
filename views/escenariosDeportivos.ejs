@@ -105,6 +105,41 @@
                             data-idEscenario="<%= Escenarios[i][j].idEscenario %>">Eliminar</a>
                     </td>
                 </tr>
+
+                <div class="modal fade" id="modal-editar-<%= escenarios[i].idEscenario %>" tabindex="-1" 
+                    aria-labelledby="exampleModalLabel"aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="modal-title" id="exampleModalLabel">
+                                    <%= Escenarios[i].nombre %>
+                                </h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" 
+                                    aria-label="Close"></button>
+                            </div>
+                            <div>
+                                <form action="" method="post">
+                                    <label for="idEscenario">Escenario</label>
+                                    <input title="idEscenario" type="text" name="idEscenario" id="idEscenario" required placeholder="Escenario">
+
+                                    <label for="nombre">Nombre</label>
+                                    <input title="nombre" type="text" name="nombre" id="nombre" required placeholder="Nombre">
+
+                                    <label for="idHorarios">Horarios</label>
+                                    <select title="idHorario" name="idHorario" id="idHorario">
+                                        <optgroup label="horario">
+                                            <% for (let i=0; i < horariosOptions.length; i++) { %>
+                                                <% for (let j=0; j < horariosOptions[i].length; j++) { %>
+                                                    <option value="<%= horariosOptions[i][j].idHorario %>">
+                                                        <%= horariosOptions[i][j].nombre %>
+                                                    </option>
+                                                    <% } %>
+                                                    <% } %>
+                                        </optgroup>
+                                    </select>
+                                </form>
+                            </div>
+                            
                 <% } %>
 
         </table>

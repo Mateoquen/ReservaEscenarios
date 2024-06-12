@@ -100,6 +100,12 @@ app.post('/roles/agregar', ensureAuthenticated, RolesController.agregarRol);
 app.post('/roles/actualizar/:id', ensureAuthenticated, RolesController.actualizarRol);
 app.get('/roles/eliminar/:id', ensureAuthenticated, RolesController.eliminarRol);
 
+// HORARIOS
+const HorariosController = require('./controllers/horariosController');
+app.get('/horarios', ensureAuthenticated, HorariosController.mostrarTodos);
+app.post('/horarios/agregar', ensureAuthenticated, HorariosController.agregarHorario);
+app.post('/horarios/actualizar/:id', ensureAuthenticated, HorariosController.actualizarHorario);
+app.get('/horarios/eliminar/:id', ensureAuthenticated, HorariosController.eliminarHorario);
 
 // Puerto e inicio
 const PORT = process.env.PORT || 3000;

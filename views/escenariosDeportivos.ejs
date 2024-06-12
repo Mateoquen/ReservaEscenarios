@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Escenarios Deportivos</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="/views/css/styles.css">
+</head>
+<body id="views">
+    <div class="container" id="container-views">
+
+        <nav class="navbar navbar-expand-lg navbar-light bg-light custom-navbar">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="#">escenarios Deportivos</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+
+                        <li class="nav-item">
+                            <a class = "nav-link" href="/">Inicio</a>
+                        </li>
+
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                                Escenarios Deportivos
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li><a class="dropdown-item" href="/Roles">Roles</a></li>
+                                <li><a class="dropdown-item" href="/Usuarios">Usuarios</a></li>
+                                <li><a class="dropdown-item" href="/Horarios">Horarios</a></li>
+                                <li><a class="dropdown-item" href="/Escenarios">Escenarios Deportivos</a></li>    
+                                <li><a class="dropdown-item" href="/Disponibilidades">Ver Disponibilidades</a></li>
+                                <li><a class="dropdown-item" href="/Reserva">Realizar reserva</a></li>
+                            </ul>
+                        </li>"
+
+                        <li class = "nav-item">
+                            <a class = "nav-link" href="/logout">Cerrar sesión</a>
+                        </li>
+                    </ul>
+                </div>  
+            </div>
+        </nav>
+        
+        <h1>Escenarios Deportivos</h1>
+        <form action="/escenariosdeportivos/agregar" method="post">
+            <label for="idEscenario">Escenario</label>
+            <input title="idEscenario" type="text" name="idEscenario" id="idEscenario" required placeholder="Escenario">
+
+            <label for="nombre">Nombre</label>
+            <input title="nombre" type="text" name="nombre" id="nombre" required placeholder="Nombre">
+
+            <label for="idHorarios">Horarios</label>
+            <select title="idHorario" name="idHorario" id="idHorario">
+                <optgroup label="horario">
+                    <% for (let i=0; i < horariosOptions.length; i++) { %>
+                        <% for (let j=0; j < horariosOptions[i].length; j++) { %>
+                            <option value="<%= horariosOptions[i][j].idHorario %>">
+                                <%= horariosOptions[i][j].nombre %>
+                            </option>
+                            <% } %>
+                            <% } %>
+                </optgroup>
+                <button type="button" onclick="createEscenario()">Crear Escenario</button>
+            </select>
+        </form>
+
+        <table>
+
+            <tr>
+                <th>Escenario</th>
+                <th>Nombre</th>
+                <th>Horario</th>
+                <th>Acciones --- Editar --- Eliminar</th>
+            </tr>
+            <% for (let i=0; i < escenarios.length; i++) { %>
+                <tr>
+                    <td>
+                        <%= escenarios[i].idEscenario %>
+                    </td>
+                    <td>
+                        <%= escenarios[i].nombre %>
+                    </td>
+                    <td>
+                        <%= escenarios[i].idHorario %>
+                    </td>
+                    <td>
+                        <button class="btn btn-primary btn-sm btn-editar"
+                        data-user-id="<%= escenarios[i].idEscenario %>"
+                        data-bs-toggle="modal"
+                        data-bs-target="#modal-editar-<%= escenarios[i].idEscenario %>">Editar</button>
+                        <a href="#" class="btn-eliminar" id="btn-elimiar" title="eliminar"
+                            data-idEscenario="<%= Escenarios[i][j].idEscenario %>">Eliminar</a>
+                    </td>
+                </tr>
+
+                <div class="modal fade" id="modal-editar-<%= escenarios[i].idEscenario %>" tabindex="-1" 
+                    aria-labelledby="exampleModalLabel"aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="modal-title" id="exampleModalLabel">
+                                    <%= Escenarios[i].nombre %>
+                                </h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" 
+                                    aria-label="Close"></button>
+                            </div>
+                            <div>
+                                <form action="" method="post">
+                                    <label for="idEscenario">Escenario</label>
+                                    <input title="idEscenario" type="text" name="idEscenario" id="idEscenario" required placeholder="Escenario">
+
+                                    <label for="nombre">Nombre</label>
+                                    <input title="nombre" type="text" name="nombre" id="nombre" required placeholder="Nombre">
+
+                                    <label for="idHorarios">Horarios</label>
+                                    <select title="idHorario" name="idHorario" id="idHorario">
+                                        <optgroup label="horario">
+                                            <% for (let i=0; i < horariosOptions.length; i++) { %>
+                                                <% for (let j=0; j < horariosOptions[i].length; j++) { %>
+                                                    <option value="<%= horariosOptions[i][j].idHorario %>">
+                                                        <%= horariosOptions[i][j].nombre %>
+                                                    </option>
+                                                    <% } %>
+                                                    <% } %>
+                                        </optgroup>
+                                    </select>
+                                </form>
+                            </div>
+                            
+                <% } %>
+
+        </table>
+    
+</body>
+</html>

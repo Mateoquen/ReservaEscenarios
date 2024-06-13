@@ -25,7 +25,22 @@ class escenariosDeportivosController {
         }
      
     }
-   
 
+    static async actualizarEscenarioDeportivo(req, res) {
+       const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ errors: errors.array() });
+        }
+        try {
+            const { nombre } = req.body;
+            const escenarioDeportivo = new escenarioDeportivo(nombre);
+            escenarioDeportivo.id = req.params.id;
+            await escenarioDeportivo.actualizar();
+            res.redirect('/escenariosDeportivos');
+        } catch (error) {
+            console.error(error);
+            res.status(500).send('Error al actualizar escenario deportivo en la base de datos');
+        }
+    }
 }
 module.exports = escenariosDeportivosController;

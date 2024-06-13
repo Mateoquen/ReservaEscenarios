@@ -2,9 +2,9 @@
 const sql = require('mssql');
 
 const config = {
-  user: 'HV',
-  password: '1234567',
-  server: 'DESKTOP-MSCL34K',
+  user: 'sa',
+  password: '12345',
+  server: 'DESKTOP-OP7ONRK',
   database: 'ReservaEscenarios',
   options: {
     encrypt: false, // Si estás usando Azure, necesitas esto

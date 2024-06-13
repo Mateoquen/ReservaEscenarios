@@ -1,27 +1,33 @@
-const {sql, poolPromise} = require('../database');
+const {sql, poolPromise} = require('../config/database');
+const logger = require('../config/logger')
+const bcrypt = require('bcrypt');
+
+
 
 class EscenarioDeportivo {
-    constructor(nombre,estado) {
+    constructor(idEscenario,nombre,idHorario) {
+        this.idEscenario = idEscenario;
         this.nombre = nombre;
+        this.idHorario = idHorario;
     }
     async guardar() {
         try {
             const pool = await poolPromise;
-            const result = await pool
-                .request()
-                .input('nombre', sql.VarChar, this.nombre)
-                .query('INSERT INTO EscenariosDeportivos (nombre) VALUES (@nombre)');
+            const result = await pool.request()
+                .input('IdEscenario', sql.VarChar, this.idEscenario)
+                .input('nombre', sql.Int, this.nombre)
+                .input('idHorario', sql.Int, this.idHorario)
+                .query('INSERT INTO EscenariosDeportivos (idEscenario,nombre,idHorario) VALUES (@IdEscenario, @nombre, @idHorario)');
             return result.rowsAffected;
         } catch (error) {
-            console.log('Error al guardar el escenario deportivo en la base de datos', error);
+            logger.error('Error al guardar el escenario deportivo en la base de datos', error);
             throw error;
         }
     }
     async actualizar() {
         try {
             const pool = await poolPromise;
-            const result = await pool
-                .request()
+            const result = await pool.request()
                 .input('nombre', sql.VarChar, this.nombre)
                 .input('id', sql.Int, this.id)
                 .query('UPDATE EscenariosDeportivos SET nombre = @nombre WHERE idEscenarioDeportivo = @id');

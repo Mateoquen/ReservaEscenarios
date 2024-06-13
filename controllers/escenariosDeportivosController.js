@@ -41,6 +41,21 @@ class escenariosDeportivosController {
             console.error(error);
             res.status(500).send('Error al actualizar escenario deportivo en la base de datos');
         }
+
+        
     }
+
+    static async eliminarEscenarioDeportivo(req, res) {
+        try {
+            const escenarioDeportivo = new escenarioDeportivo();
+            escenarioDeportivo.id = req.params.id;
+            await escenarioDeportivo.eliminar();
+            res.redirect('/escenariosDeportivos');
+        } catch (error) {
+            console.error(error);
+            res.status(500).send('Error al eliminar escenario deportivo en la base de datos');
+        }
+    }
+       
 }
 module.exports = escenariosDeportivosController;

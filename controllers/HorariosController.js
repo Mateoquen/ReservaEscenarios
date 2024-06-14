@@ -1,46 +1,48 @@
 const Horario = require('../models/Horario');
+const path= require('path');
 
-// Importar los módulos necesarios
-
-// Controlador para obtener todos los horarios
-exports.getHorarios = async (req, res) => {
-    try {
-        const horarios = await Horario.find();
-        res.json(horarios);
-    } catch (error) {
-        res.status(500).json({ error: 'Error al obtener los horarios' });
+class horariosController{
+    static async mostrarTodos (req,res){
+        try{
+            const horarios = await Horario.obtenerTodos();
+            res.render(path.join(__dirname,'..','views','horarios'),{horarios});
+        }catch(error){
+            res.status(500).send('Error al obtener horarios desde la base de datos');
+        }
     }
-};
 
-// Controlador para crear un nuevo horario
-exports.createHorario = async (req, res) => {
-    try {
-        const { fecha, horaInicio, horaFin, escenario } = req.body;
-        const horario = new Horario({ fecha, horaInicio, horaFin, escenario });
-        await horario.save();
-        res.status(201).json(horario);
-    } catch (error) {
-        res.status(500).json({ error: 'Error al crear el horario' });
+    static async agregarHorario (req,res){
+        try{
+            const {nombre, horaInicial, horaFinal}= req.body;
+            const nuevoHorario = new Horario(nombre, horaInicial, horaFinal);
+            await nuevoHorario.guardar();
+            res.redirect('/horarios');
+        }catch(error){
+            res.status(500).send('Error al agregar horarios desde la base de datos');
+        }
     }
-};
 
-// Controlador para actualizar un horario existente
-exports.updateHorario = async (req, res) => {
-    try {
-        const { fecha, horaInicio, horaFin, escenario } = req.body;
-        const horario = await Horario.findByIdAndUpdate(req.params.id, { fecha, horaInicio, horaFin, escenario }, { new: true });
-        res.json(horario);
-    } catch (error) {
-        res.status(500).json({ error: 'Error al actualizar el horario' });
+    static async actualizarHorario (req,res){
+        try{
+            const {nombre, horaInicial, horaFinal}= req.body;
+            const horario = new Horario(nombre, horaInicial, horaFinal);
+            horario.id = req.params.id;
+            await horario.actualizar()
+            res.redirect('/horarios');
+        }catch(error){
+            res.status(500).send('Error al actualizar horarios desde la base de datos');
+        }
     }
-};
 
-// Controlador para eliminar un horario existente
-exports.deleteHorario = async (req, res) => {
-    try {
-        await Horario.findByIdAndDelete(req.params.id);
-        res.json({ message: 'Horario eliminado correctamente' });
-    } catch (error) {
-        res.status(500).json({ error: 'Error al eliminar el horario' });
+    static async eliminarHorario (req,res){
+        try{
+            const horario = new Horario();
+            horario.id = req.params.id;
+            await horario.eliminar()
+            res.redirect('/horarios');
+        }catch(error){
+            res.status(500).send('Error al eliminar horarios desde la base de datos');
+        }
     }
-};
+}
+module.exports= horariosController;

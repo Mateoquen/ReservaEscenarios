@@ -34,17 +34,17 @@
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
                                 data-bs-toggle="dropdown" aria-expanded="false">
-                                Escenarios Deportivos
+                                Opciones
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <li><a class="dropdown-item" href="/Roles">Roles</a></li>
                                 <li><a class="dropdown-item" href="/Usuarios">Usuarios</a></li>
                                 <li><a class="dropdown-item" href="/Horarios">Horarios</a></li>
-                                <li><a class="dropdown-item" href="/Escenarios">Escenarios Deportivos</a></li>    
+                                <li><a class="dropdown-item" href="/Apartamentos">Apartamentos</a></li>    
                                 <li><a class="dropdown-item" href="/Disponibilidades">Ver Disponibilidades</a></li>
                                 <li><a class="dropdown-item" href="/Reserva">Realizar reserva</a></li>
                             </ul>
-                        </li>"
+                        </li>
 
                         <li class = "nav-item">
                             <a class = "nav-link" href="/logout">Cerrar sesión</a>
@@ -55,94 +55,80 @@
         </nav>
         
         <h1>Escenarios Deportivos</h1>
-        <form action="/escenariosdeportivos/agregar" method="post">
-            <label for="idEscenario">Escenario</label>
-            <input title="idEscenario" type="text" name="idEscenario" id="idEscenario" required placeholder="Escenario">
+        <form action="/escenariosDeportivos/agregar" method="post">
 
             <label for="nombre">Nombre</label>
             <input title="nombre" type="text" name="nombre" id="nombre" required placeholder="Nombre">
 
-            <label for="idHorarios">Horarios</label>
+            <label for="idHorario">Horarios</label>
             <select title="idHorario" name="idHorario" id="idHorario">
                 <optgroup label="horario">
-                    <% for (let i=0; i < horariosOptions.length; i++) { %>
-                        <% for (let j=0; j < horariosOptions[i].length; j++) { %>
-                            <option value="<%= horariosOptions[i][j].idHorario %>">
-                                <%= horariosOptions[i][j].nombre %>
-                            </option>
-                            <% } %>
-                            <% } %>
+                    <% horarios.forEach(horario => { %>
+                        <option value="<%= horario.idHorario %>"><%= horario.nombre %></option>
+                    <% }) %>
                 </optgroup>
-                <button type="button" onclick="createEscenario()">Crear Escenario</button>
             </select>
+             <button type="submit" type="button"  onclick="createEscenario()">Crear Escenario</button>
         </form>
 
         <table>
 
             <tr>
-                <th>Escenario</th>
-                <th>Nombre</th>
-                <th>Horario</th>
-                <th>Acciones --- Editar --- Eliminar</th>
+                <th>NOMBRE</th>
+                <th>HORARIO</th>
+                <th>OPCIONES</th>
             </tr>
-            <% for (let i=0; i < escenarios.length; i++) { %>
+            <% escenariosDeportivos.forEach(escenarioDeportivo => { %>
                 <tr>
-                    <td>
-                        <%= escenarios[i].idEscenario %>
-                    </td>
-                    <td>
-                        <%= escenarios[i].nombre %>
-                    </td>
-                    <td>
-                        <%= escenarios[i].idHorario %>
-                    </td>
-                    <td>
-                        <button class="btn btn-primary btn-sm btn-editar"
-                        data-user-id="<%= escenarios[i].idEscenario %>"
-                        data-bs-toggle="modal"
-                        data-bs-target="#modal-editar-<%= escenarios[i].idEscenario %>">Editar</button>
-                        <a href="#" class="btn-eliminar" id="btn-elimiar" title="eliminar"
-                            data-idEscenario="<%= Escenarios[i][j].idEscenario %>">Eliminar</a>
-                    </td>
-                </tr>
+                  <td><%= escenarioDeportivo.nombreEscenario %></td>
+                  <td><%= escenarioDeportivo.nombreHorario %></td>
+                 
+                 
+                      <td>
+                          <button class="btn btn-primary btn-sm btn-editar"
+                              data-user-id="<%= escenarioDeportivo.idEscenario %>"
+                              data-bs-toggle="modal"
+                              data-bs-target="#modal-editar-<%= escenarioDeportivo.idEscenario %>">Editar</button>
+                              <a href="/escenariosDeportivos/eliminar/<%= escenarioDeportivo.idEscenario %>" class="btn-eliminar" title="Eliminar escenario"
+                                  onclick="return confirm('¿Estás seguro de que deseas eliminar este escenario?');">
+                                  Eliminar
+                               </a>
+                      </td>
+                  </tr>
 
-                <div class="modal fade" id="modal-editar-<%= escenarios[i].idEscenario %>" tabindex="-1" 
-                    aria-labelledby="exampleModalLabel"aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h1 class="modal-title" id="exampleModalLabel">
-                                    <%= Escenarios[i].nombre %>
-                                </h1>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" 
-                                    aria-label="Close"></button>
-                            </div>
-                            <div>
-                                <form action="" method="post">
-                                    <label for="idEscenario">Escenario</label>
-                                    <input title="idEscenario" type="text" name="idEscenario" id="idEscenario" required placeholder="Escenario">
-
-                                    <label for="nombre">Nombre</label>
-                                    <input title="nombre" type="text" name="nombre" id="nombre" required placeholder="Nombre">
-
-                                    <label for="idHorarios">Horarios</label>
-                                    <select title="idHorario" name="idHorario" id="idHorario">
-                                        <optgroup label="horario">
-                                            <% for (let i=0; i < horariosOptions.length; i++) { %>
-                                                <% for (let j=0; j < horariosOptions[i].length; j++) { %>
-                                                    <option value="<%= horariosOptions[i][j].idHorario %>">
-                                                        <%= horariosOptions[i][j].nombre %>
-                                                    </option>
-                                                    <% } %>
-                                                    <% } %>
-                                        </optgroup>
-                                    </select>
-                                </form>
-                            </div>
-                            
-                <% } %>
+                  <div class="modal fade" id="modal-editar-<%= escenarioDeportivo.idEscenario %>" tabindex="-1"
+                      aria-labelledby="exampleModalLabel" aria-hidden="true" >
+                      <div class="modal-dialog">
+                          <div class="modal-content">
+                              <div class="modal-header">
+                                  <h1 class="modal-title fs-5" id="exampleModalLabel"><%= escenarioDeportivo.nombreEscenario %></h1>
+                                  <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                      aria-label="Close"></button>
+                              </div>
+                              <div class="modal-body">
+                                  <form action="/escenariosDeportivos/actualizar/<%= escenarioDeportivo.idEscenario %>" method="post">
+                                    <label>Nombre</label>
+                                    <input type="text" class="form-control mb-3" name="nombre" id="nombre" required value="<%= escenarioDeportivo.nombreEscenario %>">
+                                    <label for="idHorario">Horario</label>
+                                      <select title="idHorario" name="idHorario" id="idHorario">
+                                          <optgroup label="rol">
+                                              <% horarios.forEach(horario => { %>
+                                                  <option value="<%= horario.idHorario %>"><%= horario.nombre %></option>
+                                              <% }) %>
+                                          </optgroup>
+                                      </select>
+                                      <div class="modal-footer">
+                                          <button class="btn btn-primary btn-sm btn-guardar" type="submit">Guardar</button>
+                                      </div>
+                                  </form>
+                                  
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+          <% }) %>
 
         </table>
-    
+        <script src="/controllers/escenariosDeportivosController.js"></script>
 </body>
 </html>

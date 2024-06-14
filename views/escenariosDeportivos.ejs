@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Escenarios Deportivos</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="/views/css/styles.css">
+</head>
+<body id="views">
+    <div class="container" id="container-views">
+
+        <nav class="navbar navbar-expand-lg navbar-light bg-light custom-navbar">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="#">escenarios Deportivos</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+
+                        <li class="nav-item">
+                            <a class = "nav-link" href="/">Inicio</a>
+                        </li>
+
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                                Opciones
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li><a class="dropdown-item" href="/Roles">Roles</a></li>
+                                <li><a class="dropdown-item" href="/Usuarios">Usuarios</a></li>
+                                <li><a class="dropdown-item" href="/Horarios">Horarios</a></li>
+                                <li><a class="dropdown-item" href="/Apartamentos">Apartamentos</a></li>    
+                                <li><a class="dropdown-item" href="/Disponibilidades">Ver Disponibilidades</a></li>
+                                <li><a class="dropdown-item" href="/Reserva">Realizar reserva</a></li>
+                            </ul>
+                        </li>
+
+                        <li class = "nav-item">
+                            <a class = "nav-link" href="/logout">Cerrar sesión</a>
+                        </li>
+                    </ul>
+                </div>  
+            </div>
+        </nav>
+        
+        <h1>Escenarios Deportivos</h1>
+        <form action="/escenariosDeportivos/agregar" method="post">
+
+            <label for="nombre">Nombre</label>
+            <input title="nombre" type="text" name="nombre" id="nombre" required placeholder="Nombre">
+
+            <label for="idHorario">Horarios</label>
+            <select title="idHorario" name="idHorario" id="idHorario">
+                <optgroup label="horario">
+                    <% horarios.forEach(horario => { %>
+                        <option value="<%= horario.idHorario %>"><%= horario.nombre %></option>
+                    <% }) %>
+                </optgroup>
+            </select>
+             <button type="submit" type="button"  onclick="createEscenario()">Crear Escenario</button>
+        </form>
+
+        <table>
+
+            <tr>
+                <th>NOMBRE</th>
+                <th>HORARIO</th>
+                <th>OPCIONES</th>
+            </tr>
+            <% escenariosDeportivos.forEach(escenarioDeportivo => { %>
+                <tr>
+                  <td><%= escenarioDeportivo.nombreEscenario %></td>
+                  <td><%= escenarioDeportivo.nombreHorario %></td>
+                 
+                 
+                      <td>
+                          <button class="btn btn-primary btn-sm btn-editar"
+                              data-user-id="<%= escenarioDeportivo.idEscenario %>"
+                              data-bs-toggle="modal"
+                              data-bs-target="#modal-editar-<%= escenarioDeportivo.idEscenario %>">Editar</button>
+                              <a href="/escenariosDeportivos/eliminar/<%= escenarioDeportivo.idEscenario %>" class="btn-eliminar" title="Eliminar escenario"
+                                  onclick="return confirm('¿Estás seguro de que deseas eliminar este escenario?');">
+                                  Eliminar
+                               </a>
+                      </td>
+                  </tr>
+
+                  <div class="modal fade" id="modal-editar-<%= escenarioDeportivo.idEscenario %>" tabindex="-1"
+                      aria-labelledby="exampleModalLabel" aria-hidden="true" >
+                      <div class="modal-dialog">
+                          <div class="modal-content">
+                              <div class="modal-header">
+                                  <h1 class="modal-title fs-5" id="exampleModalLabel"><%= escenarioDeportivo.nombreEscenario %></h1>
+                                  <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                      aria-label="Close"></button>
+                              </div>
+                              <div class="modal-body">
+                                  <form action="/escenariosDeportivos/actualizar/<%= escenarioDeportivo.idEscenario %>" method="post">
+                                    <label>Nombre</label>
+                                    <input type="text" class="form-control mb-3" name="nombre" id="nombre" required value="<%= escenarioDeportivo.nombreEscenario %>">
+                                    <label for="idHorario">Horario</label>
+                                      <select title="idHorario" name="idHorario" id="idHorario">
+                                          <optgroup label="rol">
+                                              <% horarios.forEach(horario => { %>
+                                                  <option value="<%= horario.idHorario %>"><%= horario.nombre %></option>
+                                              <% }) %>
+                                          </optgroup>
+                                      </select>
+                                      <div class="modal-footer">
+                                          <button class="btn btn-primary btn-sm btn-guardar" type="submit">Guardar</button>
+                                      </div>
+                                  </form>
+                                  
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+          <% }) %>
+
+        </table>
+        <script src="/controllers/escenariosDeportivosController.js"></script>
+</body>
+</html>

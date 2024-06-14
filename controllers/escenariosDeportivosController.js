@@ -1,4 +1,4 @@
-const escenarioDeportivo = require('../models/escenarioDeportivo');
+const escenarioDeportivo = require('../models/EscenarioDeportivo');
 const Horario = require('../models/Horario');
 const path = require('path');
 
@@ -7,7 +7,7 @@ class escenariosDeportivosController {
         try {
             const escenariosDeportivos = await escenarioDeportivo.obtenerTodos();
             const horarios = await Horario.obtenerTodos();
-            res.render(path.join(__dirname, '..', 'views', 'escenarioDeportivo'), { escenariosDeportivos, horarios });
+            res.render(path.join(__dirname, '..', 'views', 'escenariosDeportivos'), { escenariosDeportivos, horarios });
         } catch (error) {
             console.error(error);
             res.status(500).send('Error al obtener escenarios deportivos desde la base de datos');
@@ -15,10 +15,11 @@ class escenariosDeportivosController {
     }
 
     static async agregarEscenarioDeportivo(req, res) {
+       
         try {
-            const { nombre} = req.body;
-            const escenarioDeportivo = new escenarioDeportivo(nombre);
-            await escenarioDeportivo.guardar();
+            const {nombre,idHorario} = req.body;
+            const nuevoescenarioDeportivo = new escenarioDeportivo(nombre,idHorario);
+            await nuevoescenarioDeportivo.guardar();
             res.redirect('/escenariosDeportivos');
         } catch (error) {
             res.status(500).send('Error al agregar escenario deportivo a la base de datos');
@@ -27,19 +28,15 @@ class escenariosDeportivosController {
     }
 
     static async actualizarEscenarioDeportivo(req, res) {
-       const errors = validationResult(req);
-        if (!errors.isEmpty()) {
-            return res.status(400).json({ errors: errors.array() });
-        }
         try {
-            const { nombre } = req.body;
-            const escenarioDeportivo = new escenarioDeportivo(nombre);
-            escenarioDeportivo.id = req.params.id;
-            await escenarioDeportivo.actualizar();
+            const { nombre,idHorario } = req.body;
+            const nuevoescenarioDeportivo = new escenarioDeportivo(nombre,idHorario);
+            nuevoescenarioDeportivo.id = req.params.id;
+            await nuevoescenarioDeportivo.actualizar();
             res.redirect('/escenariosDeportivos');
         } catch (error) {
             console.error(error);
-            res.status(500).send('Error al actualizar escenario deportivo en la base de datos');
+            res.status(500).send('Error al actualizar escenario deportivo a la base de datos');
         }
 
         
@@ -47,13 +44,13 @@ class escenariosDeportivosController {
 
     static async eliminarEscenarioDeportivo(req, res) {
         try {
-            const escenarioDeportivo = new escenarioDeportivo();
-            escenarioDeportivo.id = req.params.id;
-            await escenarioDeportivo.eliminar();
+            const nuevoescenarioDeportivo = new escenarioDeportivo();
+            nuevoescenarioDeportivo.id = req.params.id;
+            await nuevoescenarioDeportivo.eliminar();
             res.redirect('/escenariosDeportivos');
         } catch (error) {
             console.error(error);
-            res.status(500).send('Error al eliminar escenario deportivo en la base de datos');
+            res.status(500).send('Error al eliminar escenario deportivo a la base de datos');
         }
     }
        

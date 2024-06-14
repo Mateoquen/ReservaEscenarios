@@ -107,6 +107,13 @@ app.post('/horarios/agregar', ensureAuthenticated, HorariosController.agregarHor
 app.post('/horarios/actualizar/:id', ensureAuthenticated, HorariosController.actualizarHorario);
 app.get('/horarios/eliminar/:id', ensureAuthenticated, HorariosController.eliminarHorario);
 
+// ESCENARIOS DEPORTIVOS
+const EscenariosDeportivosController = require('./controllers/escenariosDeportivosController');
+app.get('/escenariosDeportivos', ensureAuthenticated, EscenariosDeportivosController.mostrarTodos);
+app.post('/escenariosDeportivos/agregar', ensureAuthenticated, EscenariosDeportivosController.agregarEscenarioDeportivo);
+app.post('/escenariosDeportivos/actualizar/:id', ensureAuthenticated, EscenariosDeportivosController.actualizarEscenarioDeportivo);
+app.get('/escenariosDeportivos/eliminar/:id', ensureAuthenticated, EscenariosDeportivosController.eliminarEscenarioDeportivo);
+
 // Puerto e inicio
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {

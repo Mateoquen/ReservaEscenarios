@@ -4,10 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>USUARIOS</title>
+    <title>Reservas</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <!-- JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
         crossorigin="anonymous"></script>
@@ -41,59 +40,156 @@
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">                                
                                 <li><a class="dropdown-item" href="/Roles">Roles</a></li>
                                 <li><a class="dropdown-item" href="/Apartamentos">Apartamentos</a></li>
-                                <li><a class="dropdown-item" href="/Usuario">Usuarios</a></li>
                                 <li><a class="dropdown-item" href="/Horarios">Horarios</a></li>
-                                <li><a class="dropdown-item" href="/Escenarios">Escenarios Deportivos</a></li>    
-                                <li><a class="dropdown-item" href="/Disponibilidades">Ver Disponibilidades</a></li>               
-                                <!-- Otras opciones del menú -->
+                                <li><a class="dropdown-item" href="/escenariosDeportivos">Escenarios Deportivos</a></li>    
+                                <li><a class="dropdown-item" href="/Disponibilidades">Ver Disponibilidades</a></li>
+                                <li><a class="dropdown-item" href="/Usuarios">Usuarios</a></li>   
                             </ul>
                         </li>
-
                         <li class="nav-item">
-                            <a class="nav-link" href="/auth">Cerrar sesión</a>
+                            <a class="nav-link" href="/logout">Cerrar sesión</a>
                         </li>
                     </ul>
                 </div>
             </div>
         </nav>
+        <h1>Reservas</h1>
+        <form action="/reservas/agregar" method="post">
+            <label for="idUsuario">Usuario</label>
+            <select title="idUsuario" name="idUsuario" id="idUsuario">
+                <optgroup label="Usuario">
+                    <% usuarios.forEach(usuario => { %>
+                        <option value="<%= usuario.idUsuario %>"><%= usuario.nombre %></option>
+                    <% }) %>
+                </optgroup>
+            </select>
+            <br>
+            <label for="idEscenario">Escenario</label>
+            <select title="idEscenario" name="idEscenario" id="idEscenario">
+                <optgroup label="Escenario">
+                    <% escenarios.forEach(escenario => { %>
+                        <option value="<%= escenario.idEscenario %>"><%= escenario.nombreEscenario %></option>
+                    <% }) %>
+                </optgroup>
+            </select>
+            <br>
+            <label for="idDisponibilidad">Disponibilidad</label>
+            <select title="idDisponibilidad" name="idDisponibilidad" id="idDisponibilidad">
+                <optgroup label="Disponibilidad">
+                    <!-- Las opciones de disponibilidad se cargarán dinámicamente mediante JavaScript -->
+                </optgroup>
+            </select>
+            <br>
+
+            <button type="submit">Crear Reserva</button>
+        </form>
 
         <table>
 
             <tr>
-                <th>ID</th>
-                <th>NOMBRE</th>
-                <th>MES</th>
-                <th>DIA</th>
-                <th>HORA</th>
+                <th>Usuario</th>
+                <th>Escenario</th>
+                <th>Fecha de Reserva</th>
             </tr>
-            <% for (let i=0; i < Disponibilidades.length; i++) { %>
-                <% for (let j=0; j < Disponibilidades[i].length; j++) { %>
-                    <tr>
-                        <td>
-                            <%= Disponibilidades[i][j].idDisponibilidad %>
-                        </td>
-                        <td>
-                            <%= Disponibilidades[i][j].nombre %>
-                        </td>
-                        <td>
-                            <%= Disponibilidades[i][j].mes %>
-                        </td>
-                        <td>
-                            <%= Disponibilidades[i][j].dia %>
-                        </td>
-                        <td>
-                            <%= Disponibilidades[i][j].hora %>
-                        </td>
+            <% reservas.forEach(reserva => { %>
+                  <tr>
+                    <td><%= reserva.nombreUsuario %></td>
+                    <td><%= reserva.nombreEscenario %></td>
+                    <td><%= reserva.fechaReserva %></td>
+                    <td>
+                        <button class="btn btn-primary btn-sm btn-editar"
+                            data-user-id="<%= reserva.idReserva %>"
+                            data-bs-toggle="modal"
+                            data-bs-target="#modal-editar-<%= reserva.idReserva %>">Editar</button>
+                            <a href="/reservas/eliminar/<%= reserva.idReserva %>" class="btn-eliminar" title="Eliminar reserva"
+                                onclick="return confirm('¿Estás seguro de que deseas eliminar esta reserva?');">
+                                Eliminar
+                            </a>
+                    </td>
                     </tr>
-                <% } %>
-            <% } %>
+
+                    <div class="modal fade" id="modal-editar-<%= reserva.idReserva %>" tabindex="-1"
+                        aria-labelledby="exampleModalLabel" aria-hidden="true" >
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="exampleModalLabel"><%= reserva.nombreUsuario %></h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <form action="/reservas/actualizar/<%= reserva.idReserva %>" method="post">
+                                        <label for="idUsuario">Usuario</label>
+                                        <select title="idUsuario" name="idUsuario" id="idUsuarioModal">
+                                            <optgroup label="Usuario">
+                                                <% usuarios.forEach(usuario => { %>
+                                                    <option value="<%= usuario.idUsuario %>"><%= usuario.nombre %></option>
+                                                <% }) %>
+                                            </optgroup>
+                                        </select>
+                                        <br>
+  
+                                        <label for="idEscenario">Escenario</label>
+                                        <select title="idEscenario" name="idEscenario" id="idEscenario">
+                                            <optgroup label="Escenario">
+                                                <% escenarios.forEach(escenario => { %>
+                                                    <option value="<%= escenario.idEscenario %>"><%= escenario.nombreEscenario %></option>
+                                                <% }) %>
+                                            </optgroup>
+                                        </select>
+                                        <br>
+                                        <label for="idDisponibilidad">Disponibilidad</label>
+                                        <select title="idDisponibilidad" name="idDisponibilidad" id="idDisponibilidad">
+                                            <optgroup label="Disponibilidad">
+                                                <!-- Las opciones de disponibilidad se cargarán dinámicamente mediante JavaScript -->
+                                            </optgroup>
+                                        </select>
+                                        <div class="modal-footer">
+                                            <button class="btn btn-primary btn-sm btn-guardar" type="submit">Guardar</button>
+                                        </div>
+                                    </form>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            <% }) %>
         </table>
-
-
-        <h1>Reservas</h1>
-        
     </div>
-    <script src="/public/reserva.js"></script>
-</body>
+    <script src="/controllers/reservasController.js"></script>
+ <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Función para cargar las opciones de disponibilidad
+        function cargarOpcionesDisponibilidad(idEscenario, selectId) {
+            fetch(`/disponibilidades/${idEscenario}`)
+                .then(response => response.json())
+                .then(data => {
+                    const idDisponibilidadSelect = document.getElementById(selectId);
+                    idDisponibilidadSelect.innerHTML = '';
+                    data.forEach(disponibilidad => {
+                        const option = document.createElement('option');
+                        option.value = disponibilidad.idDisponibilidad;
+                        option.textContent = disponibilidad.fechaReserva;
+                        idDisponibilidadSelect.appendChild(option);
+                    });
+                })
+                .catch(error => console.error('Error al obtener las disponibilidades:', error));
+        }
 
-</html>
+        // Obtener el select de idEscenario del formulario principal
+        const idEscenarioSelect = document.getElementById('idEscenario');
+        idEscenarioSelect.addEventListener('change', function() {
+            const idEscenario = this.value;
+            cargarOpcionesDisponibilidad(idEscenario, 'idDisponibilidad');
+        });
+
+        // Obtener el select de idEscenario del formulario modal
+        const idEscenarioModalSelect = document.getElementById('idEscenarioModal');
+        idEscenarioModalSelect.addEventListener('change', function() {
+            const idEscenario = this.value;
+            cargarOpcionesDisponibilidad(idEscenario, 'idDisponibilidadModal');
+        });
+    });
+</script>
+
+</body

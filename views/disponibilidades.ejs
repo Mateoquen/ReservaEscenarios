@@ -36,10 +36,9 @@
                                 <li><a class="dropdown-item" href="/Roles">Roles</a></li>
                                 <li><a class="dropdown-item" href="/Usuarios">Usuarios</a></li>
                                 <li><a class="dropdown-item" href="/Horarios">Horarios</a></li>
-                                <li><a class="dropdown-item" href="/escenariosDeportivos">Escenarios Deportivos</a>
-                                </li>
+                                <li><a class="dropdown-item" href="/escenariosDeportivos">Escenarios Deportivos</a></li>
                                 <li><a class="dropdown-item" href="/Apartamentos">Apartamentos</a></li>
-                                <li><a class="dropdown-item" href="/Reserva">Realizar reserva</a></li>
+                                <li><a class="dropdown-item" href="/Reservas">Realizar reserva</a></li>
                             </ul>
                         </li>
                         <li class="nav-item">
@@ -54,6 +53,7 @@
             <thead>
                 <tr>
                     <th>NOMBRE</th>
+                    <th>AÑO</th>
                     <th>MES</th>
                     <th>DIA</th>
                     <th>HORA</th>
@@ -63,6 +63,7 @@
                 <% disponibilidades.forEach(disponibilidad => { %>
                 <tr>
                     <td><%= disponibilidad.nombre %></td>
+                    <td><%= disponibilidad.año %></td>
                     <td><%= disponibilidad.mes %></td>
                     <td><%= disponibilidad.dia %></td>
                     <td><%= disponibilidad.hora %></td>

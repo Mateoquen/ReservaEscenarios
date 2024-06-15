@@ -15,8 +15,8 @@ class Disponibilidad {
       const result = await pool
         .request()
         .input('idEscenario', sql.Int, this.idEscenario)
-        .input('hora', sql.VarChar, this.hora)
-        .input('dia', sql.Bit, this.dia)
+        .input('hora', sql.Time, this.hora)
+        .input('dia', sql.Int, this.dia)
         .input('mes', sql.Bit, this.mes)
         .query('INSERT INTO Disponibilidades (idEscenario, hora,dia, mes) VALUES (@idEscenario, @hora, @dia,@mes)');
       return result.rowsAffected;
@@ -32,9 +32,9 @@ class Disponibilidad {
       const result = await pool
         .request()
         .input('idEscenario', sql.Int, this.idEscenario)
-        .input('hora', sql.VarChar, this.hora)
-        .input('dia', sql.Bit, this.dia)
-        .input('mes', sql.Bit, this.mes)
+        .input('hora', sql.Time, this.hora)
+        .input('dia', sql.Int, this.dia)
+        .input('mes', sql.Int, this.mes)
         .input('id', sql.Int, this.id)
         .query('UPDATE Disponibilidades SET idEscenario = @idEscenario, hora = @hora, dia= @dia, mes= @mes WHERE idDisponibilidad = @id');
       return result.rowsAffected;
@@ -61,9 +61,11 @@ class Disponibilidad {
   static async obtenerTodos() {
     try {
       const pool = await poolPromise;
-      const result = await pool.request().query(" SELECT idDisponibilidad, b.nombre, mes, dia, substring(convert(varchar, hora), 1, 5) as hora "+
-            " FROM disponibilidades a  "+
-            " INNER JOIN escenariosDeportivos b ON a.idEscenario = b.idEscenario "+
+      const result = await pool.request().query(" SELECT a.idDisponibilidad,b.idEscenario, b.nombre,año, mes, dia, substring(convert(varchar, hora), 1, 5) as hora "+
+             " FROM disponibilidades a   "+
+             " INNER JOIN escenariosDeportivos b ON a.idEscenario = b.idEscenario "+
+            " left join reservas r on r.idDisponibilidad= a.idDisponibilidad "+
+            " where r.idDisponibilidad is null "+
             " ORDER BY nombre, mes, dia, hora ASC");
       return result.recordset;
     } catch (error) {
@@ -78,12 +80,21 @@ class Disponibilidad {
       const result = await pool
         .request()
         .input('id', sql.Int, id)
-        .query(" SELECT idDisponibilidad, b.nombre, mes, dia, substring(convert(varchar, hora), 1, 5) as hora "+
-            " FROM disponibilidades a  "+
-            " INNER JOIN escenariosDeportivos b ON a.idEscenario = b.idEscenario "+
-            " WHERE idDisponibilidad = @id "+
-            " ORDER BY nombre, mes, dia, hora ASC");
-      return result.recordset[0];
+        .query(" SELECT a.idDisponibilidad,b.idEscenario, "+               
+                " substring(convert(varchar, hora), 1, 5) as hora , "+
+                " substring(convert(varchar,a.año)+'-'+ "+
+                  " iif(len(convert(varchar,a.mes))=1,'0'+convert(varchar,a.mes),convert(varchar,a.mes)) +'-' "+
+                    " +convert(varchar,a.dia)+' '+convert(varchar,a.hora),1,19) as fechaReserva ,"+
+                    "  b.nombre,   "+
+                  " año,  "+
+                  " mes,   "+
+                  " dia "+
+                  " FROM disponibilidades a   "+
+                  " INNER JOIN escenariosDeportivos b ON a.idEscenario = b.idEscenario  "+
+                  " left join reservas r on r.idDisponibilidad= a.idDisponibilidad "+
+                  " where r.idDisponibilidad is null		and b.idEscenario= @id	  "+
+                  " ORDER BY nombre,año, mes, dia, hora ASC");
+      return result.recordset;
     } catch (error) {
       console.log('Error al obtener disponibilidad por ID desde la base de datos', error);
       throw error;

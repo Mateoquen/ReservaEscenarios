@@ -114,6 +114,11 @@ app.post('/escenariosDeportivos/agregar', ensureAuthenticated, EscenariosDeporti
 app.post('/escenariosDeportivos/actualizar/:id', ensureAuthenticated, EscenariosDeportivosController.actualizarEscenarioDeportivo);
 app.get('/escenariosDeportivos/eliminar/:id', ensureAuthenticated, EscenariosDeportivosController.eliminarEscenarioDeportivo);
 
+
+//DISPONIBILIDADES
+const DisponibilidadesController = require('./controllers/disponibilidadesController');
+app.get('/Disponibilidades', ensureAuthenticated, DisponibilidadesController.mostrarTodos);
+
 // Puerto e inicio
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {

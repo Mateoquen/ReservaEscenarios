@@ -236,7 +236,6 @@ button:hover {
   margin-right: 5px;
 }
 
-/* Estilo de botón para Eliminar */
 .btn-eliminar {
   background-color: #e74c3c;
   color: #ffffff;
@@ -246,5 +245,33 @@ button:hover {
   text-decoration: none;
 }
 .custom-navbar {
-  background-color: #2b2e38; /* Cambia este color al que estás usando en el body */
+  background-color: #2b2e38; 
+}
+.dataTables_paginate {
+  float: none;
+  text-align: center;
+  margin-top: 10px;
+}
+
+.dataTables_paginate .paginate_button {
+  display: inline-block;
+  padding: 5px 10px;
+  margin: 0 2px;
+  cursor: pointer;
+  border: 1px solid #ccc;
+  background-color: #fff;
+  color: #333;
+  border-radius: 3px;
+}
+
+.dataTables_paginate .paginate_button:hover {
+  background-color: #f0f0f0;
+}
+.dataTables_length,
+.dataTables_info,
+.dataTables_filter label {
+    color: #ffffff; 
+}
+.white-text {
+  color: white;
 }

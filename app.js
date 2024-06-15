@@ -19,9 +19,9 @@ app.use(bodyParser.json());
 
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
-
 app.use(express.static(path.join(__dirname, 'views')));
 app.use('/views', express.static(path.join(__dirname, 'views')));
+app.use('/controllers', express.static(path.join(__dirname, 'controllers')));
 
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser('mi secreto'));
@@ -113,6 +113,18 @@ app.get('/escenariosDeportivos', ensureAuthenticated, EscenariosDeportivosContro
 app.post('/escenariosDeportivos/agregar', ensureAuthenticated, EscenariosDeportivosController.agregarEscenarioDeportivo);
 app.post('/escenariosDeportivos/actualizar/:id', ensureAuthenticated, EscenariosDeportivosController.actualizarEscenarioDeportivo);
 app.get('/escenariosDeportivos/eliminar/:id', ensureAuthenticated, EscenariosDeportivosController.eliminarEscenarioDeportivo);
+
+//RESERVAS
+const ReservasController = require('./controllers/reservasController');
+app.get('/reservas', ensureAuthenticated, ReservasController.mostrarTodos);
+app.post('/reservas/agregar', ensureAuthenticated, ReservasController.agregarReserva);
+app.post('/reservas/actualizar/:id', ensureAuthenticated, ReservasController.actualizarReservas);
+app.get('/reservas/eliminar/:id', ensureAuthenticated, ReservasController.eliminarReservas);
+
+//DISPONIBILIDADES
+const DisponibilidadesController = require('./controllers/disponibilidadesController');
+app.get('/Disponibilidades', ensureAuthenticated, DisponibilidadesController.mostrarTodos);
+app.get('/disponibilidades/:idEscenario', ensureAuthenticated, ReservasController.obtenerDisponibilidades);
 
 // Puerto e inicio
 const PORT = process.env.PORT || 3000;

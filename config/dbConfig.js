@@ -2,12 +2,12 @@
 const sql = require('mssql');
 
 const config = {
-  user: 'sa',
-  password: '12345',
-  server: 'DESKTOP-OP7ONRK',
+  user: 'reservaadmin',
+  password: 'Reserva.2024',
+  server: 'reservaescenarios.database.windows.net',
   database: 'ReservaEscenarios',
   options: {
-    encrypt: false, // Si estás usando Azure, necesitas esto
+    encrypt: true, // Si estás usando Azure, necesitas esto
     enableArithAbort: true // Para evitar errores relacionados con aritmética
   }
 };

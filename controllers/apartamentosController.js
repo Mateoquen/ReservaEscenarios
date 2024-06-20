@@ -58,6 +58,25 @@ class apartamentosController {
       res.status(500).send('Error al eliminar apartamento de la base de datos');
     }
   }
+  static async generarInformeApartamentos(req, res) {
+    try {
+        const informeApartamentos = await Apartamento.obtenerTodos();
+        const PDFDocument = require('pdfkit');
+        const doc = new PDFDocument();
+        doc.pipe(res);
+
+        doc.fontSize(12).text('Informe de Apartamentos', { align: 'left' });
+
+        informeApartamentos.forEach(apartamento => {
+            doc.text(` Apartamento: ${apartamento.numeroapto},Torre: ${apartamento.numerotorre}, estado: ${apartamento.estado}`);
+        });
+
+        doc.end(); 
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Error al generar el informe de apartamentos');
+    }
+  }
 }
 
 module.exports = apartamentosController;

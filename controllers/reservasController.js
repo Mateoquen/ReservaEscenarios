@@ -69,6 +69,26 @@ class ReservasController {
       res.status(500).send('Error al obtener disponibilidades desde la base de datos');
     }
   }
+  static async generarInformeReservas(req, res) {
+    try {
+        const informeReservas = await Reserva.obtenerTodos();
+        const PDFDocument = require('pdfkit');
+        const doc = new PDFDocument();
+        doc.pipe(res);
+
+        doc.fontSize(12).text('Informe de Reservas:', { align: 'left' });
+
+        informeReservas.forEach(reserva => {
+            doc.text(` Usuario: ${reserva.nombreUsuario}, Escenario deportivo: ${reserva.nombreEscenario}, fecha reserva: ${reserva.fechaReserva}`);
+        });
+
+        doc.end(); 
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Error al generar el informe de Reservas');
+    }
+  }
+
 }
 
 module.exports = ReservasController;

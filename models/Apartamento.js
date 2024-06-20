@@ -82,6 +82,7 @@ class Apartamento {
       throw error;
     }
   }
+
 }
 
 module.exports = Apartamento;

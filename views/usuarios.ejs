@@ -5,7 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Usuarios</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
     <link rel="stylesheet" href="/views/css/styles.css">
     <link rel="shortcut icon" href="../views/img/logo.png" />
@@ -14,164 +15,171 @@
 <body id="views">
     <div class="container" id="container-views">
         <%- include('navbar.html') %>
-        <h1>usuarios</h1>
-        <form action="/usuarios/agregar" method="post">
-            <label for="tipoId">tipoId</label>
-            <select title="idTipoId" name="idTipoId" id="idTipoId">
-                <optgroup label="tipoId">
-                    <% tipoIdOptions.forEach(tipoId=> { %>
-                        <option value="<%= tipoId.idTipoId %>">
-                            <%= tipoId.nombreTipoId %>
-                        </option>
-                        <% }) %>
-                </optgroup>
-            </select>
-            <label for="identificacion">Identificacion</label>
-            <input title="identificacion" type="number" name="identificacion" id="identificacion" required
-                placeholder="Identificacion">
-            <br>
-            <label for="Nombre">nombre</label>
-            <input title="nombre" type="text" name="nombre" id="nombre" required placeholder="Nombres">
-            <label for="clave">Clave</label>
-            <input title="clave" type="password" name="clave" id="clave" required placeholder="Contraseña">
-            <label for="Rol">Rol</label>
-            <select title="idRol" name="idRol" id="idRol">
-                <optgroup label="rol">
-                    <% rolesOptions.forEach(rol=> { %>
-                        <option value="<%= rol.idRol %>">
-                            <%= rol.nombre %>
-                        </option>
-                        <% }) %>
-                </optgroup>
-            </select>
-            <label for="apartamento">Apartamento</label>
-            <select title="idApartamento" name="idApartamento" id="idApartamento">
-                <optgroup label="Apartamento">
-                    <% apartamentosOptions.forEach(apartamento=> { %>
-                        <option value="<%= apartamento.idApartamento %>">
-                            <%= apartamento.Apto %>
-                        </option>
-                        <% }) %>
-                </optgroup>
-            </select><br>
-            <button type="submit">Crear Usuario</button>
-        </form>
-        
-        <table id="Table" class="display">
-            <thead>
-                <tr>
-                    <th>TIPO ID</th>
-                    <th>N° IDENTIFICACION</th>
-                    <th>NOMBRE</th>
-                    <th>ROL</th>
-                    <th>APARTAMENTO</th>
-                    <th>OPCIONES</th>
-                </tr>
-            </thead>
-            <tbody>
-                <% usuarios.forEach(usuario=> { %>
+            <h1>usuarios</h1>
+            <form action="/usuarios/agregar" method="post">
+                <label for="tipoId">tipoId</label>
+                <select title="idTipoId" name="idTipoId" id="idTipoId">
+                    <optgroup label="tipoId">
+                        <% tipoIdOptions.forEach(tipoId=> { %>
+                            <option value="<%= tipoId.idTipoId %>">
+                                <%= tipoId.nombreTipoId %>
+                            </option>
+                            <% }) %>
+                    </optgroup>
+                </select>
+                <label for="identificacion">Identificacion</label>
+                <input title="identificacion" type="number" name="identificacion" id="identificacion" required
+                    placeholder="Identificacion">
+                <br>
+                <label for="Nombre">nombre</label>
+                <input title="nombre" type="text" name="nombre" id="nombre" required placeholder="Nombres">
+                <label for="clave">Clave</label>
+                <input title="clave" type="password" name="clave" id="clave" required placeholder="Contraseña">
+                <label for="Rol">Rol</label>
+                <select title="idRol" name="idRol" id="idRol">
+                    <optgroup label="rol">
+                        <% rolesOptions.forEach(rol=> { %>
+                            <option value="<%= rol.idRol %>">
+                                <%= rol.nombre %>
+                            </option>
+                            <% }) %>
+                    </optgroup>
+                </select>
+                <label for="apartamento">Apartamento</label>
+                <select title="idApartamento" name="idApartamento" id="idApartamento">
+                    <optgroup label="Apartamento">
+                        <% apartamentosOptions.forEach(apartamento=> { %>
+                            <option value="<%= apartamento.idApartamento %>">
+                                <%= apartamento.Apto %>
+                            </option>
+                            <% }) %>
+                    </optgroup>
+                </select><br>
+                <button type="submit">Crear Usuario</button>
+                <button class="btn btn-primary" id="btn-generar-informe">Generar Informe</button>
+            </form>
+
+            <table id="Table" class="display">
+                <thead>
                     <tr>
-                        <td>
-                            <%= usuario.nombreTipoId %>
-                        </td>
-                        <td>
-                            <%= usuario.identificacion %>
-                        </td>
-                        <td>
-                            <%= usuario.nombre %>
-                        </td>
-                        <td>
-                            <%= usuario.nombreRol %>
-                        </td>
-                        <td>
-                            <%= usuario.nombreApartamento %>
-                        </td>
-                        <td>
-                            <button class="btn btn-primary btn-sm btn-editar" data-user-id="<%= usuario.idUsuario %>"
-                                data-bs-toggle="modal"
-                                data-bs-target="#modal-editar-<%= usuario.idUsuario %>">Editar</button>
-                            <a href="/usuarios/eliminar/<%= usuario.idUsuario %>" class="btn-eliminar"
-                                title="Eliminar usuario"
-                                onclick="return confirm('¿Estás seguro de que deseas eliminar este usuario?');">Eliminar</a>
-                        </td>
+                        <th>TIPO ID</th>
+                        <th>N° IDENTIFICACION</th>
+                        <th>NOMBRE</th>
+                        <th>ROL</th>
+                        <th>APARTAMENTO</th>
+                        <th>OPCIONES</th>
                     </tr>
-        
-                    <div class="modal fade" id="modal-editar-<%= usuario.idUsuario %>" tabindex="-1"
-                        aria-labelledby="exampleModalLabel" aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h1 class="modal-title fs-5" id="exampleModalLabel">
-                                        <%= usuario.nombre %>
-                                    </h1>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                        aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                    <form action="/usuarios/actualizar/<%= usuario.idUsuario %>" method="post">
-                                        <label for="tipoId">tipoId</label>
-                                        <select title="idTipoId" name="idTipoId">
-                                            <optgroup label="rol">
-                                                <% tipoIdOptions.forEach(tipoId=> { %>
-                                                    <option value="<%= tipoId.idTipoId %>">
-                                                        <%= tipoId.nombreTipoId %>
-                                                    </option>
-                                                    <% }) %>
-                                            </optgroup>
-                                        </select>
-                                        <br>
-                                        <label for="identificacion">Identificacion</label>
-                                        <input title="identificacion" type="number" name="identificacion" required
-                                            placeholder="Identificacion" value="<%= usuario.identificacion %>">
-                                        <br>
-                                        <label>Nombre</label>
-                                        <input type="text" class="form-control mb-3" name="nombre" required
-                                            value="<%= usuario.nombre %>">
-                                        <label>Clave</label>
-                                        <input type="password" class="form-control mb-3" name="clave" required
-                                            placeholder="Contraseña">
-                                        <label>Rol</label>
-                                        <select title="idRol" name="idRol">
-                                            <optgroup label="rol">
-                                                <% rolesOptions.forEach(rol=> { %>
-                                                    <option value="<%= rol.idRol %>">
-                                                        <%= rol.nombre %>
-                                                    </option>
-                                                    <% }) %>
-                                            </optgroup>
-                                        </select>
-                                        <label>Apartamento</label>
-                                        <select title="idApartamento" name="idApartamento">
-                                            <optgroup label="Apartamento">
-                                                <% apartamentosOptions.forEach(apartamento=> { %>
-                                                    <option value="<%= apartamento.idApartamento %>">
-                                                        <%= apartamento.Apto %>
-                                                    </option>
-                                                    <% }) %>
-                                            </optgroup>
-                                        </select>
-                                        <div class="modal-footer">
-                                            <button class="btn btn-primary btn-sm btn-guardar"
-                                                type="submit">Guardar</button>
-                                        </div>
-                                    </form>
+                </thead>
+                <tbody>
+                    <% usuarios.forEach(usuario=> { %>
+                        <tr>
+                            <td>
+                                <%= usuario.nombreTipoId %>
+                            </td>
+                            <td>
+                                <%= usuario.identificacion %>
+                            </td>
+                            <td>
+                                <%= usuario.nombre %>
+                            </td>
+                            <td>
+                                <%= usuario.nombreRol %>
+                            </td>
+                            <td>
+                                <%= usuario.nombreApartamento %>
+                            </td>
+                            <td>
+                                <button class="btn btn-primary btn-sm btn-editar"
+                                    data-user-id="<%= usuario.idUsuario %>" data-bs-toggle="modal"
+                                    data-bs-target="#modal-editar-<%= usuario.idUsuario %>">Editar</button>
+                                <a href="/usuarios/eliminar/<%= usuario.idUsuario %>" class="btn-eliminar"
+                                    title="Eliminar usuario"
+                                    onclick="return confirm('¿Estás seguro de que deseas eliminar este usuario?');">Eliminar</a>
+                            </td>
+                        </tr>
+
+                        <div class="modal fade" id="modal-editar-<%= usuario.idUsuario %>" tabindex="-1"
+                            aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h1 class="modal-title fs-5" id="exampleModalLabel">
+                                            <%= usuario.nombre %>
+                                        </h1>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form action="/usuarios/actualizar/<%= usuario.idUsuario %>" method="post">
+                                            <label for="tipoId">tipoId</label>
+                                            <select title="idTipoId" name="idTipoId">
+                                                <optgroup label="rol">
+                                                    <% tipoIdOptions.forEach(tipoId=> { %>
+                                                        <option value="<%= tipoId.idTipoId %>">
+                                                            <%= tipoId.nombreTipoId %>
+                                                        </option>
+                                                        <% }) %>
+                                                </optgroup>
+                                            </select>
+                                            <br>
+                                            <label for="identificacion">Identificacion</label>
+                                            <input title="identificacion" type="number" name="identificacion" required
+                                                placeholder="Identificacion" value="<%= usuario.identificacion %>">
+                                            <br>
+                                            <label>Nombre</label>
+                                            <input type="text" class="form-control mb-3" name="nombre" required
+                                                value="<%= usuario.nombre %>">
+                                            <label>Clave</label>
+                                            <input type="password" class="form-control mb-3" name="clave" required
+                                                placeholder="Contraseña">
+                                            <label>Rol</label>
+                                            <select title="idRol" name="idRol">
+                                                <optgroup label="rol">
+                                                    <% rolesOptions.forEach(rol=> { %>
+                                                        <option value="<%= rol.idRol %>">
+                                                            <%= rol.nombre %>
+                                                        </option>
+                                                        <% }) %>
+                                                </optgroup>
+                                            </select>
+                                            <label>Apartamento</label>
+                                            <select title="idApartamento" name="idApartamento">
+                                                <optgroup label="Apartamento">
+                                                    <% apartamentosOptions.forEach(apartamento=> { %>
+                                                        <option value="<%= apartamento.idApartamento %>">
+                                                            <%= apartamento.Apto %>
+                                                        </option>
+                                                        <% }) %>
+                                                </optgroup>
+                                            </select>
+                                            <div class="modal-footer">
+                                                <button class="btn btn-primary btn-sm btn-guardar"
+                                                    type="submit">Guardar</button>
+                                            </div>
+                                        </form>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <% }) %>
-            </tbody>
-        </table>
+                        <% }) %>
+                </tbody>
+            </table>
     </div>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
     <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
     <script src="../views/pagination.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             initializePagination();
+            const btnGenerarInforme = document.getElementById('btn-generar-informe');
+            btnGenerarInforme.addEventListener('click', function () {
+                window.location.href = '/usuarios/informe'; // Ruta para generar el informe en el servidor
+            });
         });
     </script>
 </body>

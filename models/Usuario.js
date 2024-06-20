@@ -126,6 +126,7 @@ class Usuario {
       throw error;
     }
   }
+  
 }
 
 module.exports = Usuario;

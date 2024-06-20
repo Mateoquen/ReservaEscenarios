@@ -57,5 +57,6 @@ class EscenarioDeportivo {
             throw error;
         }
     }
+    
 }
 module.exports = EscenarioDeportivo;

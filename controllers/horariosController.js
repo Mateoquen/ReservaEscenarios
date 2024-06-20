@@ -44,5 +44,24 @@ class horariosController{
             res.status(500).send('Error al eliminar horarios desde la base de datos');
         }
     }
+    static async generarInformeHorarios(req, res) {
+        try {
+            const informeHorarios = await Horario.obtenerTodos();
+            const PDFDocument = require('pdfkit');
+            const doc = new PDFDocument();
+            doc.pipe(res);
+    
+            doc.fontSize(12).text('Informe de Horarios:', { align: 'left' });
+    
+            informeHorarios.forEach(horario => {
+                doc.text(` Nombre: ${horario.nombre},hora inicial: ${horario.horaInicial}, hora final: ${horario.horaFinal}`);
+            });
+    
+            doc.end(); 
+        } catch (error) {
+            console.error(error);
+            res.status(500).send('Error al generar el informe de Horarios');
+        }
+      }
 }
 module.exports= horariosController;

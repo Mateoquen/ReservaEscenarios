@@ -7,5 +7,6 @@ router.get('/', ensureAuthenticated, HorariosController.mostrarTodos);
 router.post('/agregar', ensureAuthenticated, HorariosController.agregarHorario);
 router.post('/actualizar/:id', ensureAuthenticated, HorariosController.actualizarHorario);
 router.get('/eliminar/:id', ensureAuthenticated, HorariosController.eliminarHorario);
+router.get('/informe', ensureAuthenticated,HorariosController.generarInformeHorarios);
 
 module.exports = router;

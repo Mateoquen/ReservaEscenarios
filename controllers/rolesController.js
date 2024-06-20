@@ -58,6 +58,25 @@ class rolesController {
       res.status(500).send('Error al eliminar rol de la base de datos');
     }
   }
+  static async generarInformeRoles(req, res) {
+    try {
+        const informeRoles = await Rol.obtenerTodos();
+        const PDFDocument = require('pdfkit');
+        const doc = new PDFDocument();
+        doc.pipe(res);
+
+        doc.fontSize(12).text('Informe de Roles:', { align: 'left' });
+
+        informeRoles.forEach(rol => {
+            doc.text(` Nombre rol: ${rol.nombre}, Administrador: ${rol.administrador}`);
+        });
+
+        doc.end(); 
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Error al generar el informe de Roles');
+    }
+  }
 }
 
 module.exports = rolesController;

@@ -28,8 +28,9 @@
     </select>
 
     <button type="submit" type="button" onclick="createRol()">Crear rol</button>
+    
 </form>
-
+<button class="btn btn-primary" id="btn-generar-informe">Generar Informe</button>
 <table id="Table" class="display">
     <thead>
         <tr>
@@ -104,6 +105,10 @@
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             initializePagination();
+            const btnGenerarInforme = document.getElementById('btn-generar-informe');
+            btnGenerarInforme.addEventListener('click', function () {
+                window.location.href = '/roles/informe'; // Ruta para generar el informe en el servidor
+            });
         });
     </script>
 </body>

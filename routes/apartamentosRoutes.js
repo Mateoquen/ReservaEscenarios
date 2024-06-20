@@ -7,5 +7,6 @@ router.get('/', ensureAuthenticated, ApartamentosController.mostrarTodos);
 router.post('/agregar', ensureAuthenticated, ApartamentosController.agregarApartamento);
 router.post('/actualizar/:id', ensureAuthenticated, ApartamentosController.actualizarApartamento);
 router.get('/eliminar/:id', ensureAuthenticated, ApartamentosController.eliminarApartamento);
+router.get('/informe', ensureAuthenticated,ApartamentosController.generarInformeApartamentos);
 
 module.exports = router;

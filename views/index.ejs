@@ -13,45 +13,8 @@
 <body id="views">
 
     <div class="container" id="container-views">
-        
-        <nav class="navbar navbar-expand-lg navbar-light bg-light custom-navbar">
-            <div class="container-fluid">
-                <a class="navbar-brand" href="#">RESERVA DE ESCENARIOS</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-                    aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
 
-                        <li class="nav-item">
-                            <a class="nav-link" href="/">Inicio</a>
-                        </li>
-
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                                data-bs-toggle="dropdown" aria-expanded="false">
-                                Opciones
-                            </a>
-                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">                                
-                                <li><a class="dropdown-item" href="/Roles">Roles</a></li>
-                                <li><a class="dropdown-item" href="/Apartamentos">Apartamentos</a></li>
-                                <li><a class="dropdown-item" href="/Usuarios">Usuarios</a></li>
-                                <li><a class="dropdown-item" href="/Horarios">Horarios</a></li>
-                                <li><a class="dropdown-item" href="/escenariosDeportivos">Escenarios Deportivos</a></li>    
-                                <li><a class="dropdown-item" href="/Disponibilidades">Ver Disponibilidades</a></li>
-                                <li><a class="dropdown-item" href="/Reservas">Realizar reserva</a></li>      
-                            </ul>
-                        </li>
-
-                        <li class="nav-item">
-                            <a class="nav-link" href="/logout">Cerrar sesión</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
+        <%- include('navbar.html') %>
 
         <h1>INICIO</h1>
         <form action="/" method="post">

@@ -5,11 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Horarios</title>
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
-        crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
     <link rel="stylesheet" href="/views/css/styles.css">
     <link rel="shortcut icon" href="../views/img/logo.png" />
@@ -19,102 +17,105 @@
     <div class="container" id="container-views">
 
         <%- include('navbar.html') %>
-        
-        <h1>Horarios</h1>
-        <form action="/horarios/agregar" method="post">
-            <label for="nombre">Nombre</label>
-            <input title="nombre" type="text" name="nombre" id="nombre" required placeholder="Nombre Horario">
+            <h1>Horarios</h1>
+            <form action="/horarios/agregar" method="post">
+                <label for="nombre">Nombre</label>
+                <input title="nombre" type="text" name="nombre" id="nombre" required placeholder="Nombre Horario">
 
-            <label for="horaInicial">Hora inicial</label>
-            <input title="horaInicial" type="time" name="horaInicial" id="horaInicial" required
-                placeholder="HoraInicial">
+                <label for="horaInicial">Hora inicial</label>
+                <input title="horaInicial" type="time" name="horaInicial" id="horaInicial" required
+                    placeholder="HoraInicial">
 
-            <label for="horaFinal">Hora inicial</label>
-            <input title="horaFinal" type="time" name="horaFinal" id="horaFinal" required placeholder="horaFinal">
+                <label for="horaFinal">Hora inicial</label>
+                <input title="horaFinal" type="time" name="horaFinal" id="horaFinal" required placeholder="horaFinal">
 
 
-            <button type="submit" type="button" onclick="createHorario()">Crear Horario</button>
-        </form>
+                <button type="submit" type="button" onclick="createHorario()">Crear Horario</button>
+            </form>
 
-        <table id="Table" class="display">
-            <thead>
-                <tr>
-                    <th>NOMBRE</th>
-                    <th>HORA INICIAL</th>
-                    <th>HORA FINAL</th>
-                </tr>
-            </thead>
-
-            <tbody>
-                <% horarios.forEach(horario=> { %>
+            <table id="Table" class="display">
+                <thead>
                     <tr>
-                        <td>
-                            <%= horario.nombre %>
-                        </td>
-                        <td>
-                            <%= horario.horainicial %>
-                        </td>
-                        <td>
-                            <%= horario.horafinal %>
-                        </td>
-                        <td>
-                            <button class="btn btn-primary btn-sm btn-editar" data-user-id="<%= horario.idHorario %>"
-                                data-bs-toggle="modal"
-                                data-bs-target="#modal-editar-<%= horario.idHorario %>">Editar</button>
-                            <a href="/horarios/eliminar/<%= horario.idHorario %>" class="btn-eliminar"
-                                title="Eliminar Horario"
-                                onclick="return confirm('¿Estás seguro de que deseas eliminar este horario?');">
-                                Eliminar
-                            </a>
-                        </td>
+                        <th>NOMBRE</th>
+                        <th>HORA INICIAL</th>
+                        <th>HORA FINAL</th>
                     </tr>
+                </thead>
 
-                    <div class="modal fade" id="modal-editar-<%= horario.idHorario %>" tabindex="-1"
-                        aria-labelledby="exampleModalLabel" aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h1 class="modal-title fs-5" id="exampleModalLabel">
-                                        <%= horario.nombre %>
-                                    </h1>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                        aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
+                <tbody>
+                    <% horarios.forEach(horario=> { %>
+                        <tr>
+                            <td>
+                                <%= horario.nombre %>
+                            </td>
+                            <td>
+                                <%= horario.horainicial %>
+                            </td>
+                            <td>
+                                <%= horario.horafinal %>
+                            </td>
+                            <td>
+                                <button class="btn btn-primary btn-sm btn-editar"
+                                    data-user-id="<%= horario.idHorario %>" data-bs-toggle="modal"
+                                    data-bs-target="#modal-editar-<%= horario.idHorario %>">Editar</button>
+                                <a href="/horarios/eliminar/<%= horario.idHorario %>" class="btn-eliminar"
+                                    title="Eliminar Horario"
+                                    onclick="return confirm('¿Estás seguro de que deseas eliminar este horario?');">
+                                    Eliminar
+                                </a>
+                            </td>
+                        </tr>
 
-                                    <form action="/horarios/actualizar/<%= horario.idHorario %>" method="post">
+                        <div class="modal fade" id="modal-editar-<%= horario.idHorario %>" tabindex="-1"
+                            aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h1 class="modal-title fs-5" id="exampleModalLabel">
+                                            <%= horario.nombre %>
+                                        </h1>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
 
-                                        <label for="nombre">Nombre</label>
-                                        <input title="nombre" type="text" name="nombre" id="nombreModal" required
-                                            placeholder="Nombre Horario" value="<%= horario.nombre %>">
+                                        <form action="/horarios/actualizar/<%= horario.idHorario %>" method="post">
 
-                                        <label for="horaInicial">Hora inicial</label>
-                                        <input title="horaInicial" type="time" name="horaInicial" id="horaInicialModal"
-                                            required placeholder="HoraInicial" value="<%= horario.horainicial %>">
+                                            <label for="nombre">Nombre</label>
+                                            <input title="nombre" type="text" name="nombre" id="nombreModal" required
+                                                placeholder="Nombre Horario" value="<%= horario.nombre %>">
 
-                                        <label for="horaFinal">Hora inicial</label>
-                                        <input title="horaFinal" type="time" name="horaFinal" id="horaFinalModal"
-                                            required placeholder="horaFinal" value="<%= horario.horafinal %>">
+                                            <label for="horaInicial">Hora inicial</label>
+                                            <input title="horaInicial" type="time" name="horaInicial"
+                                                id="horaInicialModal" required placeholder="HoraInicial"
+                                                value="<%= horario.horainicial %>">
 
-                                        <div class="modal-footer">
-                                            <button class="btn btn-primary btn-sm btn-guardar"
-                                                type="submit">Guardar</button>
-                                        </div>
-                                    </form>
+                                            <label for="horaFinal">Hora inicial</label>
+                                            <input title="horaFinal" type="time" name="horaFinal" id="horaFinalModal"
+                                                required placeholder="horaFinal" value="<%= horario.horafinal %>">
 
+                                            <div class="modal-footer">
+                                                <button class="btn btn-primary btn-sm btn-guardar"
+                                                    type="submit">Guardar</button>
+                                            </div>
+                                        </form>
+
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <% }) %>
-            </tbody>
+                        <% }) %>
+                </tbody>
 
-        </table>
+            </table>
+
     </div>
+
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
     <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"></script>
     <script src="../views/pagination.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function () {

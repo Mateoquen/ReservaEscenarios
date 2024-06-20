@@ -70,6 +70,25 @@ class UsuariosController {
       res.status(500).send('Error al eliminar usuario de la base de datos');
     }
   }
+  static async generarInformeUsuarios(req, res) {
+    try {
+        const informeUsuarios = await Usuario.obtenerTodos();
+        const PDFDocument = require('pdfkit');
+        const doc = new PDFDocument();
+        doc.pipe(res);
+
+        doc.fontSize(12).text('Informe de Usuarios', { align: 'left' });
+
+        informeUsuarios.forEach(usuario => {
+            doc.text(` Nombre: ${usuario.nombre},Tipo Id: ${usuario.nombreTipoId}, Identificación: ${usuario.identificacion}, Rol: ${usuario.nombreRol}, Apartamento: ${usuario.nombreApartamento}`);
+        });
+
+        doc.end(); 
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Error al generar el informe de usuarios');
+    }
+  }
 }
 
 module.exports = UsuariosController;

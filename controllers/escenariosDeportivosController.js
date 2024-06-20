@@ -1,3 +1,4 @@
+const EscenarioDeportivo = require('../models/EscenarioDeportivo');
 const escenarioDeportivo = require('../models/EscenarioDeportivo');
 const Horario = require('../models/Horario');
 const path = require('path');
@@ -53,6 +54,26 @@ class escenariosDeportivosController {
             res.status(500).send('Error al eliminar escenario deportivo a la base de datos');
         }
     }
-       
+     
+    static async generarInformeEscenarioDeportivo(req, res) {
+        try {
+            const informeEscenarios = await EscenarioDeportivo.obtenerTodos();
+            const PDFDocument = require('pdfkit');
+            const doc = new PDFDocument();
+            doc.pipe(res);
+    
+            doc.fontSize(12).text('Informe de Escenarios Deportivos:', { align: 'left' });
+    
+            informeEscenarios.forEach(escenario => {
+                doc.text(` Nombre: ${escenario.nombreEscenario},horario: ${escenario.nombreHorario}`);
+            });
+    
+            doc.end(); 
+        } catch (error) {
+            console.error(error);
+            res.status(500).send('Error al generar el informe de escenarios deportivos');
+        }
+      }
+
 }
 module.exports = escenariosDeportivosController;

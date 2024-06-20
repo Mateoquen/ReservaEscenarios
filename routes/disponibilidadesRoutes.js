@@ -6,5 +6,6 @@ const ReservasController = require('../controllers/reservasController');
 
 router.get('/', ensureAuthenticated, DisponibilidadesController.mostrarTodos);
 router.get('/:idEscenario', ensureAuthenticated, ReservasController.obtenerDisponibilidades);
+router.get('/informe', ensureAuthenticated,DisponibilidadesController.generarInformeDisponibilidades);
 
 module.exports = router;

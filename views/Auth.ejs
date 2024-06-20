@@ -26,26 +26,29 @@
                                     <div class="center-wrap">
                                         <div class="section text-center">
                                             <h4 class="mb-4 pb-3">Iniciar sesión</h4>
-                                            
+
                                             <!-- Agrega un área para mostrar mensajes flash -->
                                             <% if (messages.error) { %>
                                                 <div class="alert alert-danger" role="alert">
                                                     <%= messages.error %>
                                                 </div>
-                                            <% } %>
-                                            
-                                            <form action="/Auth" method="post">
-                                                <div class="form-group">
-                                                    <input type="text" name="username" class="form-style" placeholder="Nombre usuario">
-                                                    <i class="input-icon uil uil-at"></i>
-                                                </div>
-                                                <div class="form-group mt-2">
-                                                    <input type="password" name="password" class="form-style" placeholder="Contraseña">
-                                                    <i class="input-icon uil uil-lock-alt"></i>
-                                                </div>
-                                                <button type="submit" class="btn mt-4">Ingresar</button>
-                                                <p class="mb-0 mt-4 text-center"><a href="/auth" class="link">¿Olvidaste tu contraseña?</a></p>
-                                            </form>
+                                                <% } %>
+
+                                                    <form action="/Auth" method="post">
+                                                        <div class="form-group">
+                                                            <input type="text" name="username" class="form-style"
+                                                                placeholder="Nombre usuario">
+                                                            <i class="input-icon uil uil-at"></i>
+                                                        </div>
+                                                        <div class="form-group mt-2">
+                                                            <input type="password" name="password" class="form-style"
+                                                                placeholder="Contraseña">
+                                                            <i class="input-icon uil uil-lock-alt"></i>
+                                                        </div>
+                                                        <button type="submit" class="btn mt-4">Ingresar</button>
+                                                        <p class="mb-0 mt-4 text-center"><a href="/auth"
+                                                                class="link">¿Olvidaste tu contraseña?</a></p>
+                                                    </form>
                                         </div>
                                     </div>
                                 </div>
@@ -53,45 +56,53 @@
                                     <div class="center-wrap">
                                         <div class="section text-center">
                                             <h4 class="mb-3 pb-3">Registrarme</h4>
-                                            
+
                                             <!-- Agrega un área para mostrar mensajes de registro -->
                                             <% if (messages.registrationSuccess) { %>
                                                 <div class="alert alert-success" role="alert">
                                                     <%= messages.registrationSuccess %>
                                                 </div>
-                                            <% } else if (messages.userExists) { %>
-                                                <div class="alert alert-danger" role="alert">
-                                                    <%= messages.userExists %>
-                                                </div>
-                                            <% } %>
-                                            
-                                            <form action="/register" method="post">
-                                                <div class="form-group mt">
-                                                    <select title="idTipoId" name="idTipoId" id="idTipoId" class="form-style">
-                                                        <optgroup label="Tipo Id">
-                                                            <option value="1" selected>CC Cedula de ciudadania</option>
-                                                            <option value="2">TI Tarjeta de identidad</option>
-                                                            <option value="3">CE Cedula de extranjeria</option>
-                                                        </optgroup>
-                                                    </select>
-                                                    <i class="input-icon uil uil-postcard"></i>
-                                                </div>
+                                                <% } else if (messages.userExists) { %>
+                                                    <div class="alert alert-danger" role="alert">
+                                                        <%= messages.userExists %>
+                                                    </div>
+                                                    <% } %>
 
-                                                <div class="form-group mt-2">
-                                                    <input type="number" class="form-style"  name="identificacion"required placeholder="Identificacion">
-                                                    <i class="input-icon uil uil-postcard"></i>
-                                                </div>
+                                                        <form action="/register" method="post">
+                                                            <div class="form-group mt">
+                                                                <select title="idTipoId" name="idTipoId" id="idTipoId"
+                                                                    class="form-style">
+                                                                    <optgroup label="Tipo Id">
+                                                                        <option value="1" selected>CC Cedula de
+                                                                            ciudadania</option>
+                                                                        <option value="2">TI Tarjeta de identidad
+                                                                        </option>
+                                                                        <option value="3">CE Cedula de extranjeria
+                                                                        </option>
+                                                                    </optgroup>
+                                                                </select>
+                                                                <i class="input-icon uil uil-postcard"></i>
+                                                            </div>
 
-                                                <div class="form-group mt-2">
-                                                    <input type="text" name="nombreCompleto" class="form-style" placeholder="Nombre Usuario">
-                                                    <i class="input-icon uil uil-user"></i>
-                                                </div>
-                                                <div class="form-group mt-2">
-                                                    <input type="password" name="password" class="form-style" placeholder="Contraseña">
-                                                    <i class="input-icon uil uil-lock-alt"></i>
-                                                </div>
-                                                <button type="submit" class="btn mt-4">Registrarme</button>
-                                            </form>
+                                                            <div class="form-group mt-2">
+                                                                <input type="number" class="form-style"
+                                                                    name="identificacion" required
+                                                                    placeholder="Identificacion">
+                                                                <i class="input-icon uil uil-postcard"></i>
+                                                            </div>
+
+                                                            <div class="form-group mt-2">
+                                                                <input type="text" name="nombreCompleto"
+                                                                    class="form-style" placeholder="Nombre Usuario">
+                                                                <i class="input-icon uil uil-user"></i>
+                                                            </div>
+                                                            <div class="form-group mt-2">
+                                                                <input type="password" name="password"
+                                                                    class="form-style" placeholder="Contraseña">
+                                                                <i class="input-icon uil uil-lock-alt"></i>
+                                                            </div>
+                                                            <button type="submit" class="btn mt-4">Registrarme</button>
+                                                        </form>
                                         </div>
                                     </div>
                                 </div>
@@ -103,4 +114,5 @@
         </div>
     </div>
 </body>
+
 </html>

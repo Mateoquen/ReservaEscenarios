@@ -37,6 +37,7 @@
                 </select>
 
                 <button type="submit" type="button" onclick="createApartamento()">Crear Apartamento</button>
+                <button class="btn btn-primary" id="btn-generar-informe">Generar Informe</button>
             </form>
 
             <table id="Table" class="display">
@@ -123,6 +124,10 @@
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             initializePagination();
+            const btnGenerarInforme = document.getElementById('btn-generar-informe');
+            btnGenerarInforme.addEventListener('click', function () {
+                window.location.href = '/apartamentos/informe'; // Ruta para generar el informe en el servidor
+            });
         });
     </script>
 </body>

@@ -100,6 +100,7 @@ class Disponibilidad {
       throw error;
     }
   }
+
 }
 
 module.exports = Disponibilidad;

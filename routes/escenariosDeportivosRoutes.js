@@ -7,5 +7,6 @@ router.get('/', ensureAuthenticated, EscenariosDeportivosController.mostrarTodos
 router.post('/agregar', ensureAuthenticated, EscenariosDeportivosController.agregarEscenarioDeportivo);
 router.post('/actualizar/:id', ensureAuthenticated, EscenariosDeportivosController.actualizarEscenarioDeportivo);
 router.get('/eliminar/:id', ensureAuthenticated, EscenariosDeportivosController.eliminarEscenarioDeportivo);
+router.get('/informe', ensureAuthenticated,EscenariosDeportivosController.generarInformeEscenarioDeportivo);
 
 module.exports = router;

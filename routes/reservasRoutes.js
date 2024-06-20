@@ -7,5 +7,6 @@ router.get('/', ensureAuthenticated, ReservasController.mostrarTodos);
 router.post('/agregar', ensureAuthenticated, ReservasController.agregarReserva);
 router.post('/actualizar/:id', ensureAuthenticated, ReservasController.actualizarReservas);
 router.get('/eliminar/:id', ensureAuthenticated, ReservasController.eliminarReservas);
+router.get('/informe', ensureAuthenticated,ReservasController.generarInformeReservas);
 
 module.exports = router;

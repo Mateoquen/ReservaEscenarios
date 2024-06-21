@@ -80,7 +80,7 @@ class UsuariosController {
         doc.fontSize(12).text('Informe de Usuarios', { align: 'left' });
 
         informeUsuarios.forEach(usuario => {
-            doc.text(` Nombre: ${usuario.nombre},Tipo Id: ${usuario.nombreTipoId}, Identificación: ${usuario.identificacion}, Rol: ${usuario.nombreRol}, Apartamento: ${usuario.nombreApartamento}`);
+            doc.text(`• Nombre: ${usuario.nombre},Tipo Id: ${usuario.nombreTipoId}, Identificación: ${usuario.identificacion}, Rol: ${usuario.nombreRol}, Apartamento: ${usuario.nombreApartamento}`);
         });
 
         doc.end(); 

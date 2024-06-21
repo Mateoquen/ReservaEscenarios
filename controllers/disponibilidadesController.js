@@ -34,7 +34,7 @@ class disponibilidadesController {
         doc.fontSize(12).text('Informe de disponibilidades', { align: 'left' });
 
         informeDisponibilidades.forEach(disponibilidad => {
-            doc.text(` Escenario: ${disponibilidad.nombre},Año: ${disponibilidad.año}, Mes: ${disponibilidad.mes}, dia: ${disponibilidad.dia}, Hora: ${disponibilidad.hora}`);
+            doc.text(`• Escenario: ${disponibilidad.nombre},Año: ${disponibilidad.año}, Mes: ${disponibilidad.mes}, dia: ${disponibilidad.dia}, Hora: ${disponibilidad.hora}`);
         });
 
         doc.end(); 

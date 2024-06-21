@@ -33,7 +33,6 @@ class UsuariosController {
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
-    console.log(req.body)
     try {
       const isAdmin = req.isAuthenticated() && req.user.isAdmin;
       if (isAdmin == true) {
@@ -56,7 +55,6 @@ class UsuariosController {
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
-
     try {
       const isAdmin = req.isAuthenticated() && req.user.isAdmin;
       if (isAdmin == true) {

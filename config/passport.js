@@ -1,5 +1,3 @@
-// config/passport.js
-
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const bcrypt = require('bcrypt');
@@ -15,7 +13,7 @@ passport.use(new LocalStrategy(
             const match = await bcrypt.compare(password, usuario.clave);
             if (!match) {
                 return done(null, false, { message: 'Contraseña incorrecta' });
-            }
+            }            
             return done(null, usuario);
         } catch (err) {
             return done(err);
@@ -24,14 +22,16 @@ passport.use(new LocalStrategy(
 ));
 
 passport.serializeUser(function(usuario, done) {
-    done(null, usuario.idUsuario);
+    done(null, { id: usuario.idUsuario, isAdmin: usuario.administrador === true });
 });
 
-passport.deserializeUser(async function(id, done) {
+passport.deserializeUser(async function(serializedUser, done) {
     try {
-        const usuario = await Usuario.obtenerPorId(id);
-        done(null, usuario);
+        const usuario = await Usuario.obtenerPorId(serializedUser.id);
+        done(null, {usuario, isAdmin: usuario.administrador === true });
     } catch (err) {
         done(err);
     }
 });
+
+module.exports = passport;

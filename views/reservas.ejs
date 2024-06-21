@@ -18,6 +18,7 @@
         <%- include('navbar.html') %>
 
         <h1>Reservas</h1>
+        <% if (isAdmin) { %>
         <form action="/reservas/agregar" method="post">
             <label for="idUsuario">Usuario</label>
             <select title="idUsuario" name="idUsuario" id="idUsuario">
@@ -48,10 +49,11 @@
                 </optgroup>
             </select>
             <br>
-        
-            <button type="submit">Crear Reserva</button>
             
+            <button type="submit">Crear Reserva</button>
+           
         </form>
+        <% } %>
         <button class="btn btn-primary" id="btn-generar-informe">Generar Informe</button>
         <table id="Table" class="display">
             <thead>
@@ -74,7 +76,9 @@
                         <td>
                             <%= reserva.fechaReserva %>
                         </td>
+                       
                         <td>
+                            <% if (isAdmin) { %>
                             <button class="btn btn-primary btn-sm btn-editar" data-user-id="<%= reserva.idReserva %>"
                                 data-bs-toggle="modal"
                                 data-bs-target="#modal-editar-<%= reserva.idReserva %>">Editar</button>
@@ -83,7 +87,9 @@
                                 onclick="return confirm('¿Estás seguro de que deseas eliminar esta reserva?');">
                                 Eliminar
                             </a>
+                            <% } %>
                         </td>
+                       
                     </tr>
         
                     <div class="modal fade" id="modal-editar-<%= reserva.idReserva %>" tabindex="-1"

@@ -100,7 +100,8 @@ class Usuario {
         u.nombre, 
         u.clave, 
           isnull(r.nombre,'SIN ROL') AS nombreRol, 
-          isnull(a.numeroApto,'SIN') + '' + isnull(a.numeroTorre,'APTO') AS nombreApartamento
+          isnull(a.numeroApto,'SIN') + '' + isnull(a.numeroTorre,'APTO') AS nombreApartamento,
+          r.administrador
           FROM usuarios u
           left JOIN roles r ON u.idRol = r.idRol
           left JOIN Apartamentos a ON u.idApartamento = a.idApartamento
@@ -119,7 +120,8 @@ class Usuario {
       const pool = await poolPromise;
       const result = await pool.request()
         .input('nombre',sql.VarChar, nombre)
-        .query('SELECT * FROM usuarios WHERE nombre = @nombre');
+        .query('select u.*, r.administrador from usuarios u '+
+              ' left join roles r on u.idRol=r.idRol WHERE u.nombre = @nombre');
       return result.recordset[0];
     } catch (error) {
       logger.error('Error al obtener usuario por nombre desde la base de datos', error);

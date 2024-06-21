@@ -14,88 +14,77 @@
 <body id="views">
     <div class="container" id="container-views">
         <%- include('navbar.html') %>
-        <h1>roles</h1>
-<form action="/roles/agregar" method="post">
-    <label for="nombre">Nombre</label>
-    <input title="nombre" type="text" name="nombre" id="nombre" required placeholder="Nombre rol">
+        <h1>Roles</h1>
+        <form action="/roles/agregar" method="post">
+            <label for="nombre">Nombre</label>
+            <input title="nombre" type="text" name="nombre" id="nombre" required placeholder="Nombre rol">
 
-    <label for="administrador">Administrador</label>
-    <select title="administrador" name="administrador" id="administrador">
-        <optgroup label="administrador">
-            <option value="1">Si</option>
-            <option value="0" selected>No</option>
-        </optgroup>
-    </select>
+            <label for="administrador">Administrador</label>
+            <select title="administrador" name="administrador" id="administrador">
+                <optgroup label="administrador">
+                    <option value="1">Si</option>
+                    <option value="0" selected>No</option>
+                </optgroup>
+            </select>
 
-    <button type="submit" type="button" onclick="createRol()">Crear rol</button>
-    
-</form>
-<button class="btn btn-primary" id="btn-generar-informe">Generar Informe</button>
-<table id="Table" class="display">
-    <thead>
-        <tr>
-            <th>NOMBRE</th>
-            <th>ADMINISTRADOR</th>
-        </tr>
-    </thead>
-    <tbody>
-        <% roles.forEach(rol=> { %>
-            <tr>
-                <td>
-                    <%= rol.nombre %>
-                </td>
-                <td>
-                    <%= rol.administrador %>
-                </td>
-                <td>
-                    <button class="btn btn-primary btn-sm btn-editar" data-user-id="<%= rol.idrol %>"
-                        data-bs-toggle="modal" data-bs-target="#modal-editar-<%= rol.idrol %>">Editar</button>
-                    <a href="/roles/eliminar/<%= rol.idrol %>" class="btn-eliminar" title="Eliminar rol"
-                        onclick="return confirm('¿Estás seguro de que deseas eliminar este rol?');">
-                        Eliminar
-                    </a>
-                </td>
-            </tr>
+            <button type="submit" type="button" onclick="createRol()">Crear rol</button>
+            <button class="btn btn-primary" id="btn-generar-informe">Generar Informe</button>
+        </form>
 
-            <div class="modal fade" id="modal-editar-<%= rol.idrol %>" tabindex="-1"
-                aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h1 class="modal-title fs-5" id="exampleModalLabel">
-                                <%= rol.nombre %>
-                            </h1>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <form action="/roles/actualizar/<%= rol.idrol %>" method="post">
-                                <label for="nombre">Nombre rol</label>
-                                <input title="nombre" type="text" name="nombre" id="nombreModal" required
-                                    placeholder="Nombre rol" value="<%= rol.nombre %>">
-                                <br>
-                                <label for="administrador">Administrador</label>
-                                <select title="administrador" name="administrador" id="administradorModal">
-                                    <optgroup label="administrador">
-                                        <option value="1">Si</option>
-                                        <option value="0">No</option>
-                                    </optgroup>
-                                </select>
-                                <br>
-                                <div class="modal-footer">
-                                    <button class="btn btn-primary btn-sm btn-guardar"
-                                        type="submit">Guardar</button>
+        <table id="Table" class="display">
+            <thead>
+                <tr>
+                    <th>NOMBRE</th>
+                    <th>ADMINISTRADOR</th>
+                    <th>ACCIONES</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% roles.forEach(rol => { %>
+                    <tr>
+                        <td><%= rol.nombre %></td>
+                        <td><%= rol.administrador %></td>
+                        <td>
+                            <button class="btn btn-primary btn-sm btn-editar" data-user-id="<%= rol.idrol %>"
+                                data-bs-toggle="modal" data-bs-target="#modal-editar-<%= rol.idrol %>">Editar</button>
+                            <a href="/roles/eliminar/<%= rol.idrol %>" class="btn-eliminar" title="Eliminar rol"
+                                onclick="return confirm('¿Estás seguro de que deseas eliminar este rol?');">Eliminar</a>
+                        </td>
+                    </tr>
+
+                    <div class="modal fade" id="modal-editar-<%= rol.idrol %>" tabindex="-1"
+                        aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="exampleModalLabel"><%= rol.nombre %></h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
-                            </form>
-
+                                <div class="modal-body">
+                                    <form action="/roles/actualizar/<%= rol.idrol %>" method="post">
+                                        <label for="nombre">Nombre rol</label>
+                                        <input title="nombre" type="text" name="nombre" id="nombreModal" required
+                                            placeholder="Nombre rol" value="<%= rol.nombre %>">
+                                        <br>
+                                        <label for="administrador">Administrador</label>
+                                        <select title="administrador" name="administrador" id="administradorModal">
+                                            <optgroup label="administrador">
+                                                <option value="1">Si</option>
+                                                <option value="0">No</option>
+                                            </optgroup>
+                                        </select>
+                                        <br>
+                                        <div class="modal-footer">
+                                            <button class="btn btn-primary btn-sm btn-guardar" type="submit">Guardar</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </div>
-            <% }) %>
-    </tbody>
-
-</table>
+                <% }) %>
+            </tbody>
+        </table>
     </div>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -107,7 +96,7 @@
             initializePagination();
             const btnGenerarInforme = document.getElementById('btn-generar-informe');
             btnGenerarInforme.addEventListener('click', function () {
-                window.location.href = '/roles/informe'; // Ruta para generar el informe en el servidor
+                window.location.href = '/roles/informe';
             });
         });
     </script>

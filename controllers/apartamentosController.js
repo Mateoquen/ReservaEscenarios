@@ -68,7 +68,7 @@ class apartamentosController {
         doc.fontSize(12).text('Informe de Apartamentos', { align: 'left' });
 
         informeApartamentos.forEach(apartamento => {
-            doc.text(` Apartamento: ${apartamento.numeroapto},Torre: ${apartamento.numerotorre}, estado: ${apartamento.estado}`);
+            doc.text(`• Apartamento: ${apartamento.numeroapto},Torre: ${apartamento.numerotorre}, estado: ${apartamento.estado}`);
         });
 
         doc.end(); 

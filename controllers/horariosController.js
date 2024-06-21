@@ -54,7 +54,7 @@ class horariosController{
             doc.fontSize(12).text('Informe de Horarios:', { align: 'left' });
     
             informeHorarios.forEach(horario => {
-                doc.text(` Nombre: ${horario.nombre},hora inicial: ${horario.horaInicial}, hora final: ${horario.horaFinal}`);
+                doc.text(`• Nombre: ${horario.nombre},hora inicial: ${horario.horainicial}, hora final: ${horario.horafinal}`);
             });
     
             doc.end(); 

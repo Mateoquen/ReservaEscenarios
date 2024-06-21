@@ -79,7 +79,7 @@ class ReservasController {
         doc.fontSize(12).text('Informe de Reservas:', { align: 'left' });
 
         informeReservas.forEach(reserva => {
-            doc.text(` Usuario: ${reserva.nombreUsuario}, Escenario deportivo: ${reserva.nombreEscenario}, fecha reserva: ${reserva.fechaReserva}`);
+            doc.text(`• Usuario: ${reserva.nombreUsuario}, Escenario deportivo: ${reserva.nombreEscenario}, fecha reserva: ${reserva.fechaReserva}`);
         });
 
         doc.end(); 

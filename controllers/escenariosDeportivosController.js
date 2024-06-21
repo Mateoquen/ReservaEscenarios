@@ -65,7 +65,7 @@ class escenariosDeportivosController {
             doc.fontSize(12).text('Informe de Escenarios Deportivos:', { align: 'left' });
     
             informeEscenarios.forEach(escenario => {
-                doc.text(` Nombre: ${escenario.nombreEscenario},horario: ${escenario.nombreHorario}`);
+                doc.text(`• Nombre: ${escenario.nombreEscenario},horario: ${escenario.nombreHorario}`);
             });
     
             doc.end(); 

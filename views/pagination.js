@@ -1,4 +1,4 @@
-// ../views/pagination.js
+// public/views/pagination.js
 function initializePagination() {
     $('#Table').DataTable({
         "paging": true,

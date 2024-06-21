@@ -68,7 +68,7 @@ class rolesController {
         doc.fontSize(12).text('Informe de Roles:', { align: 'left' });
 
         informeRoles.forEach(rol => {
-            doc.text(` Nombre rol: ${rol.nombre}, Administrador: ${rol.administrador}`);
+            doc.text(`• Nombre rol: ${rol.nombre}, Administrador: ${rol.administrador}`);
         });
 
         doc.end(); 

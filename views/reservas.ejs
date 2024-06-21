@@ -50,15 +50,16 @@
             <br>
         
             <button type="submit">Crear Reserva</button>
-            <button class="btn btn-primary" id="btn-generar-informe">Generar Informe</button>
+            
         </form>
-        
+        <button class="btn btn-primary" id="btn-generar-informe">Generar Informe</button>
         <table id="Table" class="display">
             <thead>
                 <tr>
                     <th>Usuario</th>
                     <th>Escenario</th>
                     <th>Fecha de Reserva</th>
+                    <th>Acciones</th> <!-- Añadido th para acciones -->
                 </tr>
             </thead>
             <tbody>
@@ -180,7 +181,7 @@
                 cargarOpcionesDisponibilidad(primerEscenario, 'idDisponibilidad');
             }
 
-            initializePagination();
+            $('#Table').DataTable(); // Inicializa DataTables correctamente
 
             const btnGenerarInforme = document.getElementById('btn-generar-informe');
             btnGenerarInforme.addEventListener('click', function () {

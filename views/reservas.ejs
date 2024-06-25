@@ -18,16 +18,22 @@
         <%- include('navbar.html') %>
 
         <h1>Reservas</h1>
-        <% if (isAdmin) { %>
+        
         <form action="/reservas/agregar" method="post">
             <label for="idUsuario">Usuario</label>
             <select title="idUsuario" name="idUsuario" id="idUsuario">
                 <optgroup label="Usuario">
+                    <% if (isAdmin) { %>
                     <% usuarios.forEach(usuario => { %>
                         <option value="<%= usuario.idUsuario %>">
                             <%= usuario.nombre %>
                         </option>
                     <% }) %>
+                    <% } else { %>
+                        <option value="<%= Usuario.idUsuario %>">
+                            <%= Usuario.nombre %>
+                        </option>
+                    <% } %>
                 </optgroup>
             </select>
             <br>
@@ -53,7 +59,6 @@
             <button type="submit">Crear Reserva</button>
            
         </form>
-        <% } %>
         <button class="btn btn-primary" id="btn-generar-informe">Generar Informe</button>
         <table id="Table" class="display">
             <thead>

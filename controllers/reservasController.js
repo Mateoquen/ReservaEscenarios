@@ -12,7 +12,7 @@ class ReservasController {
       const reservas = await Reserva.obtenerTodos();
       const usuarios = await Usuario.obtenerTodos();
       const escenarios = await Escenario.obtenerTodos();
-      res.render(path.join(__dirname, '..', 'views', 'reservas'), { reservas, usuarios, escenarios ,isAdmin: req.user.isAdmin });
+      res.render(path.join(__dirname, '..', 'views', 'reservas'), { reservas, usuarios, escenarios ,isAdmin: req.user.isAdmin,Usuario:req.user.usuario });
     } catch (error) {
       console.error('Error al obtener reservas desde la base de datos:', error);
       res.status(500).send('Error al obtener reservas desde la base de datos');
